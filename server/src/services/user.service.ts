@@ -6,6 +6,7 @@ import moment from 'moment';
 import * as jwt from 'jsonwebtoken';
 import { v4 as UUId } from 'uuid';
 import { User } from "../entity/User";
+import { Uploader } from '../core/uploader';
 
 
 export class UserService {
@@ -198,6 +199,9 @@ export class UserService {
 
 
     public async updateAvatar(req: Request, res: Response) {
+
+        const uploader = new Uploader();
+        uploader.startUpload(req, res)
 
         //var user = await this.userRepository.getUserById(id)
         //if(!user) {

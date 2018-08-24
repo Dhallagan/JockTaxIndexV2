@@ -8,6 +8,7 @@ import multer from 'multer';
 
 export class Uploader {
     public upload
+    
     constructor() {
         const storageOptions = multer.diskStorage({
             destination: function(req, file, cb) {
@@ -17,7 +18,7 @@ export class Uploader {
                 crypto.pseudoRandomBytes(16, function(err, raw) {
                     cb(null, raw.toString('hex') + Date.now() + '.' + file.originalname);
                 });
-            }
+            } 
         });
 
         this.upload = multer({ storage: storageOptions });

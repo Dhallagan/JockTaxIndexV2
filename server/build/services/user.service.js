@@ -51,6 +51,7 @@ var bcrypt_1 = __importDefault(require("bcrypt"));
 var moment_1 = __importDefault(require("moment"));
 var jwt = __importStar(require("jsonwebtoken"));
 var uuid_1 = require("uuid");
+var uploader_1 = require("../core/uploader");
 var UserService = /** @class */ (function () {
     function UserService() {
         //super();
@@ -276,7 +277,10 @@ var UserService = /** @class */ (function () {
     };
     UserService.prototype.updateAvatar = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
+            var uploader;
             return __generator(this, function (_a) {
+                uploader = new uploader_1.Uploader();
+                uploader.startUpload(req, res);
                 return [2 /*return*/];
             });
         });

@@ -12,6 +12,7 @@ import Icon from 'vue-awesome/components/Icon'
 import PortalVue from 'portal-vue'
 
 // Proprietary Components Import
+import Avatar from 'vue-avatar'
 import WillowAuthenticationLayout from './components/WillowAuthenticationLayout'
 import WillowApplicationLayout from './components/WillowApplicationLayout'
 import WillowAnnotatedSection from './components/WillowAnnotatedSection'
@@ -51,6 +52,7 @@ import WillowFiltersFieldCheckbox from './components/WillowFiltersFieldCheckbox'
 // Proprietary components
 Vue.component('authentication-layout', WillowAuthenticationLayout)
 Vue.component('application-layout', WillowApplicationLayout)
+Vue.component('willow-avatar', Avatar)
 Vue.component('willow-annotated-section', WillowAnnotatedSection)
 Vue.component('willow-breadcrumbs', WillowBreadcrumbs)
 Vue.component('willow-button', WillowButton)

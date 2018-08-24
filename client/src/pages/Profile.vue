@@ -14,16 +14,21 @@
        <b-card class="mb-2">
         <h6>Profile</h6>
         <b-row class="mb-4">
-          <b-col>
-            <label for="inputLive">Avatar</label>
-            <willow-file-input></willow-file-input>
+          <b-col :cols="3">
+            <willow-avatar :username="user.firstName + ' ' + user.lastName" :src="user.avatar"></willow-avatar>
+          </b-col>
+          <b-col :cols="4">
+            <willow-file-input :url="'http://localhost:3000/api/users/'+ user.id + '/avatar'" :identifier="'avatar'">Update Avatar</willow-file-input>
+          </b-col>
+          <b-col :cols="4">
+            <willow-button :disabled="user.avatar !== null">Delete Avatar</willow-button>
           </b-col>
         </b-row>
         <b-row class="mb-4">
           <b-col>
             <label for="inputLive">First Name</label>
             <b-form-input
-                  :value="user.FirstName"
+                  :value="user.firstName"
                   type="text"
                   placeholder="First">
             </b-form-input>
@@ -41,9 +46,9 @@
           <b-col>
             <label for="inputLive">Email</label>
             <b-form-input
-                  :value="user.Email"
+                  :value="user.email"
                   type="text"
-                  placeholder="example@me.com">
+                  placeholder="">
             </b-form-input>
           </b-col>
         </b-row>
@@ -51,7 +56,7 @@
           <b-col>
             <label for="inputLive">Phone</label>
             <b-form-input
-                  :value="user.PhoneNumber"
+                  :value="user.phoneNumber"
                   type="tel"
                   placeholder="Phone"
                   >
@@ -102,7 +107,7 @@
 import api from '@/api/api'
 export default {
   mounted () {
-    this.user = this.$store.getters.getUser
+    this.fetch()
   },
 
   data () {
@@ -115,7 +120,14 @@ export default {
           }
         ]
       },
-      user: {},
+      user: {
+        id: null,
+        firstName: null,
+        lastName: null,
+        email: null,
+        phoneNumber: null,
+        avatar: null
+      },
       passwordForm: {
         newPassword: null,
         confirmPassword: null
@@ -125,9 +137,19 @@ export default {
   },
 
   methods: {
+    fetch () {
+      var user = this.$store.getters.getUser
+      this.user.id = user.Id
+      this.user.firstName = user.FirstName
+      this.user.lastName = user.LastName
+      this.user.email = user.Email
+      this.user.phoneNumber = user.PhoneNumber
+      this.user.avatar = user.Avatar
+    },
+
     updatePassword () {
       var params = {
-        id: this.user.Id,
+        id: this.user.id,
         password: this.passwordForm.newPassword,
         confirmPassword: this.passwordForm.confirmPassword
       }

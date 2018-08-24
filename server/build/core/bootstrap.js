@@ -7,6 +7,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var express = __importStar(require("express"));
+var path = __importStar(require("path"));
 var database_1 = require("../core/database");
 var server_1 = require("./server");
 //import { Seeds } from './seeds';
@@ -38,7 +40,7 @@ var Bootstrap = /** @class */ (function () {
     Bootstrap.prototype.setupCors = function (app) {
         console.log("Setting up CORS...");
         app.use(function (req, res, next) {
-            res.header('Access-Control-Allow-Origin', 'http://localhost:8081');
+            res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
             res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
             res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials');
             res.header('Access-Control-Allow-Credentials', 'true');
@@ -47,7 +49,8 @@ var Bootstrap = /** @class */ (function () {
     };
     Bootstrap.prototype.setupStorage = function (app) {
         console.log("Setting up storage...");
-        // Maybe I do something here?
+        console.log(path.join(__dirname, "uploads"));
+        app.use(express.static(path.join(__dirname, "uploads"), { maxAge: 31557600000 }));
     };
     Bootstrap.prototype.setupAuthentication = function (app) {
         console.log("Setting up authentication...");
