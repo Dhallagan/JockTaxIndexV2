@@ -116,7 +116,12 @@ Router.beforeEach((to, from, next) => {
         path: '/login'
       })
     } else {
-      next()
+      if (!Store.getters.getUser) {
+        const promise = Store.dispatch('SET_USER')
+        promise.then(res => next(), err => console.log(err))
+      } else {
+        next()
+      }
     }
   } else {
     next()

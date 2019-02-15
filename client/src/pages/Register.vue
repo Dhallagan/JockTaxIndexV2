@@ -68,6 +68,7 @@ export default {
           })
 
           this.messages = messages
+          this.$store.dispatch('LOGIN_SUCCESS', res.data)
           setTimeout(() => this.$router.push({ path: '/login' }), 5000)
         })
         .catch(error => {

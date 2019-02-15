@@ -8,12 +8,10 @@ import { v4 as UUId } from 'uuid';
 import { User } from "../entity/User";
 import { Uploader } from '../core/uploader';
 
-
 export class UserService {
 
     private userRepository: UserRepository;
 
-    
     constructor() {
         //super();
         this.userRepository = new UserRepository();
@@ -22,15 +20,26 @@ export class UserService {
     public generateToken(user) {
         var payload = {
             iss: "localhost",
-            sub: user._id,
+            sub: user.Id,
             iat: moment().unix(),
             exp: moment().add(14, 'days').unix()
         };
         return jwt.sign(payload, 'secretsecretsecret');
     }
 
-
-
+    public generateUserViewModel(user) {
+        return {
+            Id: user.Id,
+            Avatar: user.Avatar,
+            Email: user.Email,
+            FirstName: user.FirstName,
+            LastName: user.LastName,
+            PhoneNumber: user.PhoneNumber,
+            Role: user.Role,
+            Active: user.Active,
+            DateCreated: user.DateCreated
+        };
+    }
 
     public async createUser(res: Response, firstname: string, lastname: string, email: string, password: string) {
         firstname = firstname.toLowerCase();
@@ -52,8 +61,24 @@ export class UserService {
         return res.status(200).json({'msg': 'Registration success! An email has been sent to '+ email + '.  Check your email to complete the registration process.'});
     }
 
+    public async createUserNoVerification(res: Response, firstname: string, lastname: string, email: string, password: string) {
 
+        email = email.toLowerCase();
 
+        const userExists = await this.userRepository.getUserByEmail(email)
+
+        if(userExists){
+            return  res.status(422).json({'errors': [{'msg': 'Account with that email address already exists.'}]})
+        }
+
+        const passwordHash = await bcrypt.hash(password, 10)
+        const user = await this.userRepository.createUser(res, firstname, lastname, email, passwordHash, UUId());
+
+        // Send email
+        //Emailer.welcomeEmail(user.Email, user.FirstName + " " + user.LastName, user.EmailVerifyToken);
+        console.log(user)
+        return  res.status(200).json({'msg': 'Registration success! An email has been sent to '+ email + '.  Check your email to complete the registration process.', 'token': this.generateToken(user), 'user': user})
+    }
 
     public async verifyEmail(res: Response, verifyEmailToken: string) {
       
@@ -73,16 +98,13 @@ export class UserService {
         return res.status(200).json({'msg': 'Your email has been successfully verified.'});
     }
 
-
-    
-
     public async login(res: Response, email: string, password: string) {
         const user = await this.userRepository.getUserByEmail(email)
         
         if(!user){
             return  res.status(422).json({'errors': [{'msg': 'The email you’ve entered doesn’t match any account.'}]})
         }
-        console.log('hi', user)
+        console.log('User logged in:', user)
         if(user.Active === false) {
             return  res.status(422).json({'errors': [{'msg': 'The account is not active. Contact your administrator.'}]})
         }
@@ -95,9 +117,6 @@ export class UserService {
             return  res.status(200).json({token: this.generateToken(user), user: user})
         }
     }
-
-
-
 
     public async recoverPassword(res: Response, email: string) {
         email = email.toLowerCase();
@@ -118,9 +137,6 @@ export class UserService {
         return res.status(200).json({'msg': 'An email has been sent to '+ email + ' with further instruction.'});
     }
 
-
-
-
     public async resetPassword(res: Response, token: string, password: string) {
         console.log(token, password)
         var user = await this.userRepository.getUserByTokenAndExpiration(token)
@@ -139,9 +155,6 @@ export class UserService {
         return res.status(200).json({'msg': 'Your password has been saved successfully.'})
     }
 
-
-
-
     public async updatePassword(res: Response, userId: number, password: string, confirmPassword: string) {
         var user = await this.userRepository.getUserById(userId)
         if(!user) {
@@ -158,26 +171,16 @@ export class UserService {
         return res.status(200).json({'msg': 'Your password has been saved successfully.'})
     }
 
-
-
-
     public async getUsers(res: Response) {
-        var users = await this.userRepository.getUsers()
-        return res.status(200).json(users)
+        const users = await this.userRepository.getUsers()
+        const usersViewModel = users.map(user => this.generateUserViewModel(user));
+        return res.status(200).json(usersViewModel);
     }
-
-
-
-
 
     public async getUser(res: Response, userId: number) {
-        var user = await this.userRepository.getUserById(userId)
-        return res.status(200).json(user)
+        var user = await this.userRepository.getUserById(userId);
+        return res.status(200).json(this.generateUserViewModel(user));
     }
-
-
-
-
 
     public async updateUser(res: Response, id: number, firstName: string, lastName: string, role: string, active: boolean) {
         
@@ -191,30 +194,18 @@ export class UserService {
         user.Role = role
         user.Active = active
         
-        var updatedUser = await this.userRepository.updateUser(id, user)
-        return res.status(200).json(updatedUser)
+        var updatedUser = await this.userRepository.updateUser(id, user);
+        return res.status(200).json(this.generateUserViewModel(updatedUser));
     }
 
+    public async updateAvatar(res: Response, id: number, avatar: string) {
+        var user = await this.userRepository.getUserById(id)
+        if(!user) {
+            return  res.status(422).json({'errors': [{'msg': 'User Id is invalid.'}]})
+        }
+        user.Avatar = avatar
 
-
-
-    public async updateAvatar(req: Request, res: Response) {
-
-        const uploader = new Uploader();
-        uploader.startUpload(req, res)
-
-        //var user = await this.userRepository.getUserById(id)
-        //if(!user) {
-        //    return  res.status(422).json({'errors': [{'msg': 'User Id is invalid.'}]})
-        //}
-        //user.FirstName = firstName
-        //user.LastName = lastName
-        //user.PhoneNumber = ""
-        //user.Role = role
-        //user.Active = active
-        
-        //var updatedUser = await this.userRepository.updateUser(id, user)
-        //return res.status(200).json(updatedUser)
+        var updatedUser = await this.userRepository.updateUser(id, user)
+        return res.status(200).json(this.generateUserViewModel(updatedUser))
     }
 }
-

@@ -4,11 +4,9 @@ import * as path from 'path'
 import {Database} from '../core/database'
 import { Server } from './server';
 //import { Seeds } from './seeds';
-import { Authentication } from './middleware/Authentication'
+import { Authentication } from './middleware/authentication'
 import { UserRoutes } from '../routes/user.routes';
 import * as dotenv from 'dotenv';
-
-
 
 const root = './';
 
@@ -27,7 +25,6 @@ export class Bootstrap {
         dotenv.config({ path: "./src/config/.env.development" });
     }
 
-
     public setupDatabase(app: express.Application): void {
         // Retrieve all queries
         // TODO: not sure if .then is wrong because queries is empty until then (should be await)
@@ -36,7 +33,6 @@ export class Bootstrap {
         //console.log('Seeding database...')
         //Seeds.seedUsers();
     }
-
 
     public setupCors(app: express.Application): void {
         console.log("Setting up CORS...")

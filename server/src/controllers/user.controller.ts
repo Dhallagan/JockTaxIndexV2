@@ -14,25 +14,19 @@ export class UserController extends BaseController {
     constructor() {
         super();
         this.userService = new UserService();
-       
     }
-
 
     public async register(req: Request, res: Response) {
         const viewModel = req.body;
-        console.log(viewModel)
         const errors = validationResult(req);
      
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
         }
 
-        return await this.userService.createUser(res, viewModel.firstName, viewModel.lastName, viewModel.email, viewModel.password)
+        return await this.userService.createUserNoVerification(res, viewModel.firstName, viewModel.lastName, viewModel.email, viewModel.password)
     }
 
-
-
-    
     public async verifyRegistration(req: Request, res: Response) {
         const viewModel = req.body;
 
@@ -40,9 +34,6 @@ export class UserController extends BaseController {
             await this.userService.verifyEmail(res, viewModel.token)
         );
     }
-
-
-
 
     public async updatePassword(req: Request, res: Response) {
         const viewModel = req.body;
@@ -55,9 +46,6 @@ export class UserController extends BaseController {
         await this.userService.updatePassword(res, viewModel.id, viewModel.password, viewModel.confirmPassword)
     }
 
-
-
-
    public async login(req: Request, res: Response) {
         const viewModel = req.body;
 
@@ -67,11 +55,9 @@ export class UserController extends BaseController {
             return res.status(422).json({ errors: errors.array() });
         }
 
-        await this.userService.login(res, viewModel.email, viewModel.password)
+        return await this.userService.login(res, viewModel.email, viewModel.password)
+
    }
-
-
-
 
    public async recoverPassword(req: Request, res: Response) {
         const viewModel = req.body;
@@ -79,9 +65,6 @@ export class UserController extends BaseController {
         return await this.userService.recoverPassword(res, viewModel.email)
         
     }
-
-
-
 
     public async resetPassword(req: Request, res: Response) {
         const viewModel = req.body;
@@ -97,9 +80,6 @@ export class UserController extends BaseController {
         
     }
 
-
-
-
     public async getUsers(req: Request, res: Response) {
         const viewModel = req.body;
         console.log(viewModel)
@@ -114,9 +94,6 @@ export class UserController extends BaseController {
         
     }
 
-
-
-
     public async getUser(req: Request, res: Response) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -126,13 +103,17 @@ export class UserController extends BaseController {
         return await this.userService.getUser(res, req.params.id)
     }
 
+    public async getUserByToken(req: Request, res: Response) {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
 
-
-
+        return await this.userService.getUser(res, req['user'])
+    }
 
     public async updateUser(req: Request, res: Response) {
         const viewModel = req.body;
-        console.log(viewModel)
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
@@ -141,19 +122,13 @@ export class UserController extends BaseController {
         return await this.userService.updateUser(res, req.params.id, viewModel.firstName, viewModel.lastName, viewModel.role, viewModel.active)
     }
 
-
-
-
-
     public async updateAvatar(req: Request, res: Response) {
-        const uploader = new Uploader();
-        uploader.startUpload(req, res)
-        //const errors = validationResult(req);
-        //if (!errors.isEmpty()) {
-        //   return res.status(422).json({ errors: errors.array() });
-        //}
-
-       // return await this.userService.updateUser(res, req.params.id, viewModel.firstName, viewModel.lastName, viewModel.role, viewModel.active)
+        const viewModel = req.body;
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
         }
-}
 
+        return await this.userService.updateAvatar(res, req.params.id, viewModel.avatar)
+    }
+}

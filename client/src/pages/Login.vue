@@ -61,6 +61,8 @@ export default {
         })
         .catch(error => {
           console.log(error)
+
+          this.$store.dispatch('LOGIN_FAILED')
           var messages = error.response.data.errors
 
           messages.forEach(message => {
