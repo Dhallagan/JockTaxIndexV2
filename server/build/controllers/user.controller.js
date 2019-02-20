@@ -1,8 +1,11 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -48,7 +51,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var base_controller_1 = require("./base-controller");
 var user_service_1 = require("../services/user.service");
 var check_1 = require("express-validator/check");
-var uploader_1 = require("../core/uploader");
 //app.post('/upload', uploader.startUpload);
 var UserController = /** @class */ (function (_super) {
     __extends(UserController, _super);
@@ -64,12 +66,11 @@ var UserController = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0:
                         viewModel = req.body;
-                        console.log(viewModel);
                         errors = check_1.validationResult(req);
                         if (!errors.isEmpty()) {
                             return [2 /*return*/, res.status(422).json({ errors: errors.array() })];
                         }
-                        return [4 /*yield*/, this.userService.createUser(res, viewModel.firstName, viewModel.lastName, viewModel.email, viewModel.password)];
+                        return [4 /*yield*/, this.userService.createUserNoVerification(res, viewModel.firstName, viewModel.lastName, viewModel.email, viewModel.password)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -122,9 +123,7 @@ var UserController = /** @class */ (function (_super) {
                             return [2 /*return*/, res.status(422).json({ errors: errors.array() })];
                         }
                         return [4 /*yield*/, this.userService.login(res, viewModel.email, viewModel.password)];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
@@ -194,6 +193,22 @@ var UserController = /** @class */ (function (_super) {
             });
         });
     };
+    UserController.prototype.getUserByToken = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var errors;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        errors = check_1.validationResult(req);
+                        if (!errors.isEmpty()) {
+                            return [2 /*return*/, res.status(422).json({ errors: errors.array() })];
+                        }
+                        return [4 /*yield*/, this.userService.getUser(res, req['user'])];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     UserController.prototype.updateUser = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var viewModel, errors;
@@ -201,7 +216,6 @@ var UserController = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0:
                         viewModel = req.body;
-                        console.log(viewModel);
                         errors = check_1.validationResult(req);
                         if (!errors.isEmpty()) {
                             return [2 /*return*/, res.status(422).json({ errors: errors.array() })];
@@ -214,11 +228,35 @@ var UserController = /** @class */ (function (_super) {
     };
     UserController.prototype.updateAvatar = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var uploader;
+            var viewModel, errors;
             return __generator(this, function (_a) {
-                uploader = new uploader_1.Uploader();
-                uploader.startUpload(req, res);
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        viewModel = req.body;
+                        errors = check_1.validationResult(req);
+                        if (!errors.isEmpty()) {
+                            return [2 /*return*/, res.status(422).json({ errors: errors.array() })];
+                        }
+                        return [4 /*yield*/, this.userService.updateAvatar(res, req.params.id, viewModel.avatar)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    UserController.prototype.invite = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var viewModel, errors;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        viewModel = req.body;
+                        errors = check_1.validationResult(req);
+                        if (!errors.isEmpty()) {
+                            return [2 /*return*/, res.status(422).json({ errors: errors.array() })];
+                        }
+                        return [4 /*yield*/, this.userService.createInviteUser(res, viewModel.firstName, viewModel.lastName, viewModel.email, viewModel.role, req['user'])];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
             });
         });
     };

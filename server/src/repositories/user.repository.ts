@@ -8,9 +8,10 @@ import { User } from "../entity/User";
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
 
-    public async createUser(res: Response, firstname: string, lastname: string, email: string, passwordHash: string, emailVerifyToken: string){
-        return await getConnection().manager.save(User, {FirstName: firstname, LastName: lastname, Email: email, PasswordHash: passwordHash, EmailVerifyToken: emailVerifyToken});
+    public async createUser(res: Response, firstname: string, lastname: string, email: string, passwordHash: string, emailVerifyToken: string, role:string = 'User'){
+        return await getConnection().manager.save(User, {FirstName: firstname, LastName: lastname, Email: email, PasswordHash: passwordHash, EmailVerifyToken: emailVerifyToken, Role: role});
     }
+    
 
     public async getUserByEmail(email: string){
         return await getConnection().manager.findOne(User, {Email: email});

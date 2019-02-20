@@ -7,6 +7,7 @@ import * as jwt from 'jsonwebtoken';
 import { v4 as UUId } from 'uuid';
 import { User } from "../entity/User";
 import { Uploader } from '../core/uploader';
+import { String } from 'aws-sdk/clients/cloudhsmv2';
 
 export class UserService {
 
@@ -208,4 +209,29 @@ export class UserService {
         var updatedUser = await this.userRepository.updateUser(id, user)
         return res.status(200).json(this.generateUserViewModel(updatedUser))
     }
+
+    public async createInviteUser(res: Response, firstname: string, lastname: string, email: string, role: String, invitedBy: number) {
+        firstname = firstname.toLowerCase();
+        lastname = lastname.toLowerCase();
+        email = email.toLowerCase();
+
+        const userExists = await this.userRepository.getUserByEmail(email)
+
+        if(userExists){
+            return  res.status(422).json({'errors': [{'msg': 'Account with that email address already exists.'}]})
+        }
+
+        const userInviteSent = await this.userRepository.getUserById(invitedBy);
+        if (userInviteSent) {
+            const password = this.generateToken({length: 10, numbers: true});
+            const passwordHash = await bcrypt.hash(password, 10);
+            const user = await this.userRepository.createUser(res, firstname, lastname, email, passwordHash, UUId(), role);
+            console.log(user)
+
+            Emailer.inviteEmail(email, user.FirstName + " " + user.LastName, userInviteSent.FirstName + " " + userInviteSent.LastName, user.EmailVerifyToken, password);
+
+            return res.status(200).json({'msg': 'Invite sent!'});
+        }
+
+    } 
 }

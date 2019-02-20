@@ -37,7 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var typeorm_1 = require("typeorm");
 var User_1 = require("../entity/User");
-var Property_1 = require("../entity/Property");
 var Database = /** @class */ (function () {
     function Database() {
     }
@@ -48,12 +47,12 @@ var Database = /** @class */ (function () {
                 return [2 /*return*/, typeorm_1.createConnection({
                         type: "mysql",
                         host: process.env.DB_HOST,
-                        port: 3306,
+                        port: parseInt(process.env.DB_PORT || '3306'),
                         username: process.env.DB_USER,
                         password: process.env.DB_PASS,
                         database: process.env.DB_DATABASE,
                         synchronize: true,
-                        entities: [User_1.User, Property_1.Property]
+                        entities: [User_1.User]
                     })];
             });
         });

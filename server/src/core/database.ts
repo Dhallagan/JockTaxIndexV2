@@ -1,6 +1,5 @@
 import {createConnection} from "typeorm";
 import {User} from "../entity/User";
-import {Property} from "../entity/Property";
 
 export class Database {
   //public static db: mysql.Connection
@@ -15,7 +14,7 @@ export class Database {
         password: process.env.DB_PASS,
         database: process.env.DB_DATABASE,
         synchronize: true,
-        entities: [User, Property]
+        entities: [User]
     });
   }
 }

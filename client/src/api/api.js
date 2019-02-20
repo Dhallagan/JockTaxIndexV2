@@ -53,5 +53,9 @@ export default {
 
   updateAvatar (id, params) {
     return axios.post(`/users/${id}/avatar`, params)
+  },
+
+  sendInvite (params) {
+    return HTTP.post('/invite', params)
   }
 }

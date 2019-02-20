@@ -51,7 +51,6 @@ var bcrypt_1 = __importDefault(require("bcrypt"));
 var moment_1 = __importDefault(require("moment"));
 var jwt = __importStar(require("jsonwebtoken"));
 var uuid_1 = require("uuid");
-var uploader_1 = require("../core/uploader");
 var UserService = /** @class */ (function () {
     function UserService() {
         //super();
@@ -60,11 +59,24 @@ var UserService = /** @class */ (function () {
     UserService.prototype.generateToken = function (user) {
         var payload = {
             iss: "localhost",
-            sub: user._id,
+            sub: user.Id,
             iat: moment_1.default().unix(),
             exp: moment_1.default().add(14, 'days').unix()
         };
         return jwt.sign(payload, 'secretsecretsecret');
+    };
+    UserService.prototype.generateUserViewModel = function (user) {
+        return {
+            Id: user.Id,
+            Avatar: user.Avatar,
+            Email: user.Email,
+            FirstName: user.FirstName,
+            LastName: user.LastName,
+            PhoneNumber: user.PhoneNumber,
+            Role: user.Role,
+            Active: user.Active,
+            DateCreated: user.DateCreated
+        };
     };
     UserService.prototype.createUser = function (res, firstname, lastname, email, password) {
         return __awaiter(this, void 0, void 0, function () {
@@ -91,6 +103,33 @@ var UserService = /** @class */ (function () {
                         // Send email
                         emailer_1.Emailer.welcomeEmail(user.Email, user.FirstName + " " + user.LastName, user.EmailVerifyToken);
                         return [2 /*return*/, res.status(200).json({ 'msg': 'Registration success! An email has been sent to ' + email + '.  Check your email to complete the registration process.' })];
+                }
+            });
+        });
+    };
+    UserService.prototype.createUserNoVerification = function (res, firstname, lastname, email, password) {
+        return __awaiter(this, void 0, void 0, function () {
+            var userExists, passwordHash, user;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        email = email.toLowerCase();
+                        return [4 /*yield*/, this.userRepository.getUserByEmail(email)];
+                    case 1:
+                        userExists = _a.sent();
+                        if (userExists) {
+                            return [2 /*return*/, res.status(422).json({ 'errors': [{ 'msg': 'Account with that email address already exists.' }] })];
+                        }
+                        return [4 /*yield*/, bcrypt_1.default.hash(password, 10)];
+                    case 2:
+                        passwordHash = _a.sent();
+                        return [4 /*yield*/, this.userRepository.createUser(res, firstname, lastname, email, passwordHash, uuid_1.v4())];
+                    case 3:
+                        user = _a.sent();
+                        // Send email
+                        //Emailer.welcomeEmail(user.Email, user.FirstName + " " + user.LastName, user.EmailVerifyToken);
+                        console.log(user);
+                        return [2 /*return*/, res.status(200).json({ 'msg': 'Registration success! An email has been sent to ' + email + '.  Check your email to complete the registration process.', 'token': this.generateToken(user), 'user': user })];
                 }
             });
         });
@@ -128,7 +167,7 @@ var UserService = /** @class */ (function () {
                         if (!user) {
                             return [2 /*return*/, res.status(422).json({ 'errors': [{ 'msg': 'The email you’ve entered doesn’t match any account.' }] })];
                         }
-                        console.log('hi', user);
+                        console.log('User logged in:', user);
                         if (user.Active === false) {
                             return [2 /*return*/, res.status(422).json({ 'errors': [{ 'msg': 'The account is not active. Contact your administrator.' }] })];
                         }
@@ -227,13 +266,15 @@ var UserService = /** @class */ (function () {
     };
     UserService.prototype.getUsers = function (res) {
         return __awaiter(this, void 0, void 0, function () {
-            var users;
+            var users, usersViewModel;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.userRepository.getUsers()];
                     case 1:
                         users = _a.sent();
-                        return [2 /*return*/, res.status(200).json(users)];
+                        usersViewModel = users.map(function (user) { return _this.generateUserViewModel(user); });
+                        return [2 /*return*/, res.status(200).json(usersViewModel)];
                 }
             });
         });
@@ -246,7 +287,7 @@ var UserService = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.userRepository.getUserById(userId)];
                     case 1:
                         user = _a.sent();
-                        return [2 /*return*/, res.status(200).json(user)];
+                        return [2 /*return*/, res.status(200).json(this.generateUserViewModel(user))];
                 }
             });
         });
@@ -270,18 +311,62 @@ var UserService = /** @class */ (function () {
                         return [4 /*yield*/, this.userRepository.updateUser(id, user)];
                     case 2:
                         updatedUser = _a.sent();
-                        return [2 /*return*/, res.status(200).json(updatedUser)];
+                        return [2 /*return*/, res.status(200).json(this.generateUserViewModel(updatedUser))];
                 }
             });
         });
     };
-    UserService.prototype.updateAvatar = function (req, res) {
+    UserService.prototype.updateAvatar = function (res, id, avatar) {
         return __awaiter(this, void 0, void 0, function () {
-            var uploader;
+            var user, updatedUser;
             return __generator(this, function (_a) {
-                uploader = new uploader_1.Uploader();
-                uploader.startUpload(req, res);
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.userRepository.getUserById(id)];
+                    case 1:
+                        user = _a.sent();
+                        if (!user) {
+                            return [2 /*return*/, res.status(422).json({ 'errors': [{ 'msg': 'User Id is invalid.' }] })];
+                        }
+                        user.Avatar = avatar;
+                        return [4 /*yield*/, this.userRepository.updateUser(id, user)];
+                    case 2:
+                        updatedUser = _a.sent();
+                        return [2 /*return*/, res.status(200).json(this.generateUserViewModel(updatedUser))];
+                }
+            });
+        });
+    };
+    UserService.prototype.createInviteUser = function (res, firstname, lastname, email, role, invitedBy) {
+        return __awaiter(this, void 0, void 0, function () {
+            var userExists, userInviteSent, password, passwordHash, user;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        firstname = firstname.toLowerCase();
+                        lastname = lastname.toLowerCase();
+                        email = email.toLowerCase();
+                        return [4 /*yield*/, this.userRepository.getUserByEmail(email)];
+                    case 1:
+                        userExists = _a.sent();
+                        if (userExists) {
+                            return [2 /*return*/, res.status(422).json({ 'errors': [{ 'msg': 'Account with that email address already exists.' }] })];
+                        }
+                        return [4 /*yield*/, this.userRepository.getUserById(invitedBy)];
+                    case 2:
+                        userInviteSent = _a.sent();
+                        if (!userInviteSent) return [3 /*break*/, 5];
+                        password = this.generateToken({ length: 10, numbers: true });
+                        return [4 /*yield*/, bcrypt_1.default.hash(password, 10)];
+                    case 3:
+                        passwordHash = _a.sent();
+                        return [4 /*yield*/, this.userRepository.createUser(res, firstname, lastname, email, passwordHash, uuid_1.v4(), role)];
+                    case 4:
+                        user = _a.sent();
+                        console.log(user);
+                        emailer_1.Emailer.inviteEmail(email, user.FirstName + " " + user.LastName, userInviteSent.FirstName + " " + userInviteSent.LastName, user.EmailVerifyToken, password);
+                        return [2 /*return*/, res.status(200).json({ 'msg': 'Invite sent!' })];
+                    case 5: return [2 /*return*/];
+                }
             });
         });
     };

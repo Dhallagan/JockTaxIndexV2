@@ -48,6 +48,7 @@ import WillowFiltersFields from './components/WillowFiltersFields'
 import WillowFiltersFieldSelect from './components/WillowFiltersFieldSelect'
 import WillowFiltersFieldTextfield from './components/WillowFiltersFieldTextfield'
 import WillowFiltersFieldCheckbox from './components/WillowFiltersFieldCheckbox'
+import WillowTextfield from './components/WillowTextfield'
 
 // Proprietary components
 Vue.component('authentication-layout', WillowAuthenticationLayout)
@@ -86,6 +87,8 @@ Vue.component('willow-filters-fields', WillowFiltersFields)
 Vue.component('willow-filters-field-select', WillowFiltersFieldSelect)
 Vue.component('willow-filters-field-textfield', WillowFiltersFieldTextfield)
 Vue.component('willow-filters-field-checkbox', WillowFiltersFieldCheckbox)
+Vue.component('willow-textfield', WillowTextfield)
+
 // Third Party Components
 Vue.component('icon', Icon)
 Vue.use(Vuex)

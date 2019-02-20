@@ -35,7 +35,7 @@
       title="Accounts And Permissions"
     >
        <b-card class="mb-2">
-       <h6>Account Owner</h6>
+       <h6>Profile</h6>
        <router-link to="/Settings/Accounts/Profile">
         <willow-button plain>{{this.$store.getters.getUser.FirstName}} {{this.$store.getters.getUser.LastName}}</willow-button>
        </router-link>
@@ -49,13 +49,13 @@
        <b-card class="mb-2">
        <h6>Staff Accounts</h6>
        <p class="card-text">
-        Invite a staff member to join you.
+        Invite a staff member to help you manage.
        </p>
       <willow-button primary url="/Settings/Accounts/New">Add staff account</willow-button>
        </b-card>
     </willow-annotated-section>
 
-        <willow-annotated-section
+    <!-- <willow-annotated-section
       title="Subscription Status"
       description="Manage your subscription."
     >
@@ -77,7 +77,7 @@
         </b-col>
        </b-row>
        </b-card>
-    </willow-annotated-section>
+    </willow-annotated-section> -->
 
   </willow-layout>
 

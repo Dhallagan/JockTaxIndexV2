@@ -2,8 +2,8 @@ import * as nodemailer from 'nodemailer'
 
 export class Emailer {
     
-    static fromEmail = 'XXXXXX@XXXXX.XXX';
-    static fromName = 'XXXXX';
+    static fromEmail = 'dylanhallagan@gmail.com';
+    static fromName = 'Dylan Hallagan';
 
 
     static welcomeEmail(email: string, username: string, emailVerifyToken: string) {
@@ -57,6 +57,23 @@ export class Emailer {
         Emailer.send(mailData)
     }
 
+
+    
+    static inviteEmail(email: string, username: string, fromUsername: string, emailVerifyToken: string, password: string) {
+
+        console.log('Sending invite email to ' + email)
+
+        const mailData = {
+            to: email,
+            from: Emailer.fromEmail,
+            subject: fromUsername + ' invited you to TS-Node-Starter',
+            html: "<p>Welcome to TS-Node-Starter.  To finish registration please click or paste this link into your browser to complete the process. </p>" +
+                  "<p><a href='http://localhost:8080/verify/" + emailVerifyToken + "'>http://localhost:8080/verify/" + emailVerifyToken + "</a> </p>" +
+                  "<p>This is your temporary password: " + password + "</p>"
+        };
+
+        Emailer.send(mailData)
+    }
 
 
 
