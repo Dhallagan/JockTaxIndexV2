@@ -38,7 +38,8 @@ export class UserService {
             PhoneNumber: user.PhoneNumber,
             Role: user.Role,
             Active: user.Active,
-            DateCreated: user.DateCreated
+            DateCreated: user.DateCreated,
+            EmailVerified: user.EmailVerified
         };
     }
 

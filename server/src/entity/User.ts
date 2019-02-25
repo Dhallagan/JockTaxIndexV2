@@ -40,7 +40,7 @@ export class User {
     @Column({default: null, nullable: true})
     EmailVerifyToken: string;
 
-    @Column({default: true, nullable: false})
+    @Column({default: false, nullable: false})
     Active: Boolean;
 
     @Column({default: 'User', nullable: false})

@@ -64,7 +64,6 @@ const User = {
       console.log('LOGOUT_SUCCESS')
       var resetState = {token: null, user: null}
       localStorage.removeItem('token')
-      localStorage.removeItem('user')
       context.commit('setToken', resetState.token)
       context.commit('setUser', resetState.user)
     },

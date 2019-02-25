@@ -75,7 +75,8 @@ var UserService = /** @class */ (function () {
             PhoneNumber: user.PhoneNumber,
             Role: user.Role,
             Active: user.Active,
-            DateCreated: user.DateCreated
+            DateCreated: user.DateCreated,
+            EmailVerified: user.EmailVerified
         };
     };
     UserService.prototype.createUser = function (res, firstname, lastname, email, password) {

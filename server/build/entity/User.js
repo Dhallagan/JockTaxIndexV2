@@ -62,7 +62,7 @@ var User = /** @class */ (function () {
         __metadata("design:type", String)
     ], User.prototype, "EmailVerifyToken", void 0);
     __decorate([
-        typeorm_1.Column({ default: true, nullable: false }),
+        typeorm_1.Column({ default: false, nullable: false }),
         __metadata("design:type", Boolean)
     ], User.prototype, "Active", void 0);
     __decorate([
