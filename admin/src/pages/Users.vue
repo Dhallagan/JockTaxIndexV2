@@ -8,7 +8,7 @@
     </template> -->
 
     <template slot="action-right">
-      <willow-button primary>Add User</willow-button>
+      <willow-button primary url="/admin/users/new">Add User</willow-button>
     </template>
 
   </page-header>
@@ -47,7 +47,7 @@
 
     <b-table hover :items="users" :fields="fields">
       <template slot="Email" slot-scope="data">
-        {{data.item.Email}}
+        {{data.item.Email || '-'}}
       </template>
 
       <template slot="Verified" slot-scope="data">

@@ -78,8 +78,14 @@ export default new Router({
       component: Users
     },
     {
+      path: '/admin/users/new',
+      name: 'InviteStaff',
+      meta: { layout: 'application', requiresAuth: true },
+      component: InviteStaff
+    },
+    {
       path: '/admin/users/:userId',
-      name: 'Users',
+      name: 'UsersEdit',
       meta: { layout: 'application', requiresAuth: true },
       component: UsersEdit
     },
@@ -164,12 +170,12 @@ export default new Router({
       meta: { layout: 'application', requiresAuth: true },
       component: Account
     },
-    {
-      path: '/admin/Settings/Accounts/New',
-      name: 'InviteStaff',
-      meta: { layout: 'application', requiresAuth: true },
-      component: InviteStaff
-    },
+    // {
+    //   path: '/admin/Settings/Accounts/New',
+    //   name: 'InviteStaff',
+    //   meta: { layout: 'application', requiresAuth: true },
+    //   component: InviteStaff
+    // },
     {
       path: '/admin/Settings/Accounts/Profile',
       name: 'Profile',

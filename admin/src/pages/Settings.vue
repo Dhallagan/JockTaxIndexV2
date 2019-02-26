@@ -12,7 +12,7 @@
     <willow-layout-section>
        <b-card card-title="Default" class="mb-2">
         <b-row>
-          <router-link class="col-xl col-md-24 pb-3" to="/settings/accounts">
+          <router-link class="col-xl col-md-24 pb-3" to="/admin/settings/accounts">
               <div class="card h-100">
                   <div class="row h-100 no-gutters">
                       <div class="col bg-light text-primary d-flex">

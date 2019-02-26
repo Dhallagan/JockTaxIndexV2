@@ -45,6 +45,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var generate_password_1 = require("generate-password");
 var emailer_1 = require("../email/emailer");
 var user_repository_1 = require("../repositories/user.repository");
 var bcrypt_1 = __importDefault(require("bcrypt"));
@@ -359,7 +360,7 @@ var UserService = /** @class */ (function () {
                     case 2:
                         userInviteSent = _a.sent();
                         if (!userInviteSent) return [3 /*break*/, 5];
-                        password = this.generateToken({ length: 10, numbers: true });
+                        password = generate_password_1.generate({ length: 10, numbers: true });
                         return [4 /*yield*/, bcrypt_1.default.hash(password, 10)];
                     case 3:
                         passwordHash = _a.sent();

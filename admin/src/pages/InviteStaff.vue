@@ -2,7 +2,7 @@
 <page>
 
   <page-header
-    title="Add Account"
+    title="Add User"
     :breadcrumbs="pageheader.breadcrumbs"
   >
   </page-header>
@@ -56,7 +56,7 @@
             </b-form-group>
           </b-col>
         </b-row>
-          <willow-button class="mt-4">Cancel</willow-button>
+          <willow-button class="mt-4" url="/admin/users">Cancel</willow-button>
           <willow-button class="mt-4 float-right" primary @click.native="sendInvite()">Send Invite</willow-button>
        </b-card>
 
@@ -77,8 +77,8 @@ export default {
       pageheader: {
         breadcrumbs: [
           {
-            text: 'Accounts',
-            href: '/Settings/Accounts'
+            text: 'Users',
+            href: '/admin/users'
           }
         ]
       },

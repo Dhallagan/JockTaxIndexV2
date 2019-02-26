@@ -1,4 +1,5 @@
 import { Response } from 'express';
+import { generate } from 'generate-password';
 import { Emailer } from '../email/emailer';
 import { UserRepository } from "../repositories/user.repository";
 import bcrypt from 'bcrypt';
@@ -225,7 +226,7 @@ export class UserService {
 
         const userInviteSent = await this.userRepository.getUserById(invitedBy);
         if (userInviteSent) {
-            const password = this.generateToken({length: 10, numbers: true});
+            const password = generate({length: 10, numbers: true});
             const passwordHash = await bcrypt.hash(password, 10);
             const user = await this.userRepository.createUser(res, firstname, lastname, email, passwordHash, UUId(), role);
             console.log(user)

@@ -10,7 +10,7 @@
 
   <willow-layout>
   <!-- CARD -->
-    <willow-annotated-section title="Edit Account" description="Give access to the application, turn on and off accounts, change role, and reset their password.">
+    <willow-annotated-section title="Edit User" description="Give access to the application, turn on and off accounts, change role, and reset their password.">
        <b-card class="mb-2">
         <h6>Profile</h6>
         <b-row class="mb-4">
@@ -202,7 +202,7 @@ export default {
         email: this.userEditForm.email,
         phoneNumber: this.userEditForm.phoneNumber,
         role: this.userEditForm.role,
-        active: (this.userEditForm.active === 'true' ? true : false)
+        active: this.userEditForm.active === 'true'
       }
       console.log(params)
       api.updateUserById(this.userEditForm.id, params)
@@ -213,6 +213,10 @@ export default {
             message.msg = 'Updated Successfully.'
           })
           this.messages = messages
+          setTimeout(() => {
+            this.messages = {}
+            this.$router.replace({ name: 'Users' })
+          }, 3000)
         })
         .catch(error => {
           var messages = error.response.data.errors
