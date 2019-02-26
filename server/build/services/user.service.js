@@ -293,7 +293,7 @@ var UserService = /** @class */ (function () {
             });
         });
     };
-    UserService.prototype.updateUser = function (res, id, firstName, lastName, role, active) {
+    UserService.prototype.updateUser = function (res, id, firstName, lastName, phoneNumber, role, active) {
         return __awaiter(this, void 0, void 0, function () {
             var user, updatedUser;
             return __generator(this, function (_a) {
@@ -306,11 +306,14 @@ var UserService = /** @class */ (function () {
                         }
                         user.FirstName = firstName;
                         user.LastName = lastName;
-                        user.PhoneNumber = "";
+                        user.PhoneNumber = phoneNumber;
                         user.Role = role;
                         user.Active = active;
                         return [4 /*yield*/, this.userRepository.updateUser(id, user)];
                     case 2:
+                        _a.sent();
+                        return [4 /*yield*/, this.userRepository.getUserById(id)];
+                    case 3:
                         updatedUser = _a.sent();
                         return [2 /*return*/, res.status(200).json(this.generateUserViewModel(updatedUser))];
                 }

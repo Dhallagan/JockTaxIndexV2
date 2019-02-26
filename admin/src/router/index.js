@@ -23,11 +23,18 @@ import UsersEdit from '../pages/Users.Edit'
 // import Listing from '../pages/Listing'
 // import Tenants from '../pages/Tenants'
 // import AddLease from '../pages/AddLease'
+import fourohfour from '../pages/404'
 Vue.use(Router)
 
 export default new Router({
   mode: 'history',
   routes: [
+    {
+      path: '*',
+      name: '404',
+      meta: { layout: 'authentication' },
+      component: fourohfour
+    },
     {
       path: '/register',
       name: 'Register',
@@ -59,21 +66,21 @@ export default new Router({
       component: Reset
     },
     {
-      path: '/',
+      path: '/admin/',
       name: 'Home',
       meta: { layout: 'application', requiresAuth: true },
       component: Home
     },
     {
-      path: '/admin/tenants',
-      name: 'Accounts',
-      meta: { layout: 'application' },
+      path: '/admin/users',
+      name: 'Users',
+      meta: { layout: 'application', requiresAuth: true },
       component: Users
     },
     {
-      path: '/admin/tenants/:id',
-      name: 'Accounts',
-      meta: { layout: 'application' },
+      path: '/admin/users/:userId',
+      name: 'Users',
+      meta: { layout: 'application', requiresAuth: true },
       component: UsersEdit
     },
     // {
@@ -146,25 +153,25 @@ export default new Router({
     //   component: Components
     // },
     {
-      path: '/Settings',
+      path: '/admin/Settings',
       name: 'Settings',
       meta: { layout: 'application', requiresAuth: true },
       component: Settings
     },
     {
-      path: '/Settings/Accounts',
+      path: '/admin/Settings/Accounts',
       name: 'Accounts',
       meta: { layout: 'application', requiresAuth: true },
       component: Account
     },
     {
-      path: '/Settings/Accounts/New',
+      path: '/admin/Settings/Accounts/New',
       name: 'InviteStaff',
       meta: { layout: 'application', requiresAuth: true },
       component: InviteStaff
     },
     {
-      path: '/Settings/Accounts/Profile',
+      path: '/admin/Settings/Accounts/Profile',
       name: 'Profile',
       meta: { layout: 'application', requiresAuth: true },
       component: Profile

@@ -217,7 +217,7 @@ var UserController = /** @class */ (function (_super) {
                         if (!errors.isEmpty()) {
                             return [2 /*return*/, res.status(422).json({ errors: errors.array() })];
                         }
-                        return [4 /*yield*/, this.userService.updateUser(res, req.params.id, viewModel.firstName, viewModel.lastName, viewModel.role, viewModel.active)];
+                        return [4 /*yield*/, this.userService.updateUser(res, req.params.id, viewModel.firstName, viewModel.lastName, viewModel.phoneNumber, viewModel.role, viewModel.active)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });

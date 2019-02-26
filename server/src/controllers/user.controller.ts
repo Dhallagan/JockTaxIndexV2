@@ -119,7 +119,7 @@ export class UserController extends BaseController {
             return res.status(422).json({ errors: errors.array() });
         }
 
-        return await this.userService.updateUser(res, req.params.id, viewModel.firstName, viewModel.lastName, viewModel.role, viewModel.active)
+        return await this.userService.updateUser(res, req.params.id, viewModel.firstName, viewModel.lastName, viewModel.phoneNumber, viewModel.role, viewModel.active)
     }
 
     public async updateAvatar(req: Request, res: Response) {

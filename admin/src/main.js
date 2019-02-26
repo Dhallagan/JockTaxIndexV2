@@ -10,6 +10,8 @@ import BootstrapVue from 'bootstrap-vue'
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
 import PortalVue from 'portal-vue'
+import * as fns from 'date-fns'
+import * as _ from 'lodash'
 
 // Proprietary Components Import
 import Avatar from 'vue-avatar'
@@ -49,6 +51,7 @@ import WillowFiltersFieldSelect from './components/WillowFiltersFieldSelect'
 import WillowFiltersFieldTextfield from './components/WillowFiltersFieldTextfield'
 import WillowFiltersFieldCheckbox from './components/WillowFiltersFieldCheckbox'
 import WillowTextfield from './components/WillowTextfield'
+import WillowSelect from './components/WillowSelect'
 
 // Proprietary components
 Vue.component('authentication-layout', WillowAuthenticationLayout)
@@ -88,6 +91,7 @@ Vue.component('willow-filters-field-select', WillowFiltersFieldSelect)
 Vue.component('willow-filters-field-textfield', WillowFiltersFieldTextfield)
 Vue.component('willow-filters-field-checkbox', WillowFiltersFieldCheckbox)
 Vue.component('willow-textfield', WillowTextfield)
+Vue.component('willow-select', WillowSelect)
 
 // Third Party Components
 Vue.component('icon', Icon)
@@ -95,21 +99,12 @@ Vue.use(Vuex)
 Vue.use(BootstrapVue)
 Vue.use(PortalVue)
 
+// Doing this to make it read only
+Object.defineProperty(Vue.prototype, 'fns', { value: fns })
+Object.defineProperty(Vue.prototype, '_', { value: _ })
+
 Vue.config.productionTip = false
 
-// Router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.requiresAuth)) {
-//     // this route requires auth, check if logged in
-//     // if not, redirect to login page.
-//     if (!this.$store.getters.getAuthToken()) {
-//       this.router.push({ path: '/login' })
-//     } else {
-//       next()
-//     }
-//   } else {
-//     next() // make sure to always call next()!
-//   }
-// })
 Router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in

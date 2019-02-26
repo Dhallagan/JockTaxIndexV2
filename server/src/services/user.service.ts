@@ -184,7 +184,7 @@ export class UserService {
         return res.status(200).json(this.generateUserViewModel(user));
     }
 
-    public async updateUser(res: Response, id: number, firstName: string, lastName: string, role: string, active: boolean) {
+    public async updateUser(res: Response, id: number, firstName: string, lastName: string, phoneNumber: string, role: string, active: boolean) {
         
         var user = await this.userRepository.getUserById(id)
         if(!user) {
@@ -192,11 +192,12 @@ export class UserService {
         }
         user.FirstName = firstName
         user.LastName = lastName
-        user.PhoneNumber = ""
+        user.PhoneNumber = phoneNumber
         user.Role = role
         user.Active = active
         
-        var updatedUser = await this.userRepository.updateUser(id, user);
+        await this.userRepository.updateUser(id, user);
+        var updatedUser = await this.userRepository.getUserById(id)
         return res.status(200).json(this.generateUserViewModel(updatedUser));
     }
 

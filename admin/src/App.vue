@@ -41,11 +41,11 @@
 
       <!-- VERTICAL SIDEBAR MENU  -->
       <template slot='vertical-menu-primary'>
-        <willow-menu-item
+        <!-- <willow-menu-item
           icon='home'
           title='Home'
-          href='/'
-        ></willow-menu-item>
+          href='/admin/'
+        ></willow-menu-item> -->
 
         <!-- MENU ITEMS-->
         <!-- <willow-vertical-submenu
@@ -85,16 +85,22 @@
           ></willow-menu-item>
         </willow-vertical-submenu> -->
 
-        <willow-menu-item v-if="hasRole('Admin')"
+        <willow-menu-item
+          icon='list'
+          title='Leagues'
+          href='/admin/leagues'
+        ></willow-menu-item>
+
+        <willow-menu-item
           icon='users'
-          title='Tenants'
-          href='/admin/tenants'
+          title='Users'
+          href='/admin/users'
         ></willow-menu-item>
 
         <willow-menu-item
           icon='cog'
           title='Settings'
-          href='/Settings'
+          href='/admin/Settings'
         ></willow-menu-item>
 
       </template>
