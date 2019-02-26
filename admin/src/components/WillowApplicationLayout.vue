@@ -76,7 +76,7 @@
 <!-- horizontal -->
   <nav class="navbar navbar-dark navbar-expand-sm bg-primary sticky-top p-0" v-if="!vertical">
 
-      <a class="navbar-brand col-md-5 col-lg-3 mr-0" href="/">
+      <a class="navbar-brand col-md-5 col-lg-3 mr-0" href="/admin">
         <slot name="brand"/>
       </a>
 
@@ -101,7 +101,7 @@
 <!-- VERTICAL -->
   <nav class="navbar navbar-dark navbar-expand-sm bg-primary sticky-top p-0" v-if="vertical">
    <!-- Brand -->
-    <a class="navbar-brand col-md-5 col-lg-3 mr-0" href="/">
+    <a class="navbar-brand col-md-5 col-lg-3 mr-0" href="/admin">
       <slot name="brand"/>
     </a>
 

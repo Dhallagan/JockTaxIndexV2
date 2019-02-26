@@ -26,17 +26,23 @@
 
       <template slot='horizontal-menu-primary'>
         <!-- MENU ITEMS-->
-          <willow-menu-item
-            title='Home'
-            href='/'
-          ></willow-menu-item>
-          <willow-menu-item
-            title='Listings'
-            href='/listings'
-          ></willow-menu-item>
-          <willow-horizontal-submenu>
-          </willow-horizontal-submenu>
+        <willow-menu-item
+        icon='list'
+        title='Leagues'
+        href='/admin/leagues'
+        ></willow-menu-item>
 
+        <willow-menu-item
+          icon='users'
+          title='Users'
+          href='/admin/users'
+        ></willow-menu-item>
+
+        <willow-menu-item
+          icon='cog'
+          title='Settings'
+          href='/admin/Settings'
+        ></willow-menu-item>
       </template>
 
       <!-- VERTICAL SIDEBAR MENU  -->
