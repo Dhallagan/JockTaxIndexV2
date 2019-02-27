@@ -18,6 +18,7 @@ export class UserController extends BaseController {
 
     public async register(req: Request, res: Response) {
         const viewModel = req.body;
+        console.log('hit')
         const errors = validationResult(req);
      
         if (!errors.isEmpty()) {

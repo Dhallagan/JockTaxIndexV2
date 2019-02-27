@@ -6,6 +6,7 @@ import { Server } from './server';
 //import { Seeds } from './seeds';
 import { Authentication } from './middleware/authentication'
 import { UserRoutes } from '../routes/user.routes';
+import { HealthRoutes } from '../routes/health.routes';
 import * as dotenv from 'dotenv';
 
 const root = './';
@@ -29,6 +30,9 @@ export class Bootstrap {
         // Retrieve all queries
         // TODO: not sure if .then is wrong because queries is empty until then (should be await)
         console.log('Setting up database connection...')
+        console.log(process.env.DB_HOST)
+        console.log(process.env.DB_PORT)
+        console.log(process.env.DB_DATABASE)
         Database.createConnection();
         //console.log('Seeding database...')
         //Seeds.seedUsers();
@@ -65,6 +69,7 @@ export class Bootstrap {
         // const generalRouter = new GeneralRoutes().router;
         //const usersRouter = new UsersRoutes().router;
         console.log("Setting up routes...")
+        const healthRouter = new HealthRoutes().router;
         const userRouter = new UserRoutes().router;
         app.use('/api', userRouter);
         //app.use('/api', usersRouter);

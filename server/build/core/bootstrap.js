@@ -14,6 +14,7 @@ var server_1 = require("./server");
 //import { Seeds } from './seeds';
 var authentication_1 = require("./middleware/authentication");
 var user_routes_1 = require("../routes/user.routes");
+var health_routes_1 = require("../routes/health.routes");
 var dotenv = __importStar(require("dotenv"));
 var root = './';
 var Bootstrap = /** @class */ (function () {
@@ -33,6 +34,9 @@ var Bootstrap = /** @class */ (function () {
         // Retrieve all queries
         // TODO: not sure if .then is wrong because queries is empty until then (should be await)
         console.log('Setting up database connection...');
+        console.log(process.env.DB_HOST);
+        console.log(process.env.DB_PORT);
+        console.log(process.env.DB_DATABASE);
         database_1.Database.createConnection();
         //console.log('Seeding database...')
         //Seeds.seedUsers();
@@ -61,6 +65,7 @@ var Bootstrap = /** @class */ (function () {
         // const generalRouter = new GeneralRoutes().router;
         //const usersRouter = new UsersRoutes().router;
         console.log("Setting up routes...");
+        var healthRouter = new health_routes_1.HealthRoutes().router;
         var userRouter = new user_routes_1.UserRoutes().router;
         app.use('/api', userRouter);
         //app.use('/api', usersRouter);
