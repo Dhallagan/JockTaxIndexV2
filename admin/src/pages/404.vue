@@ -3,9 +3,6 @@
 
    <nav class="navbar navbar-dark navbar-expand-sm bg-primary sticky-top p-0" >
 
-      <a class="navbar-brand col-md-5 col-lg-3 mr-0" href="/">
-        TS NODE STARTER
-      </a>
 
     <!-- Links -->
     <!-- <ul class="navbar-nav">
@@ -19,16 +16,13 @@
   </nav>
   <page>
 
-  <b-card class="mb-2 mt-4">
+  
     <div class="text-center">
 
-        <img class="mb-4" src="../assets/logo.png" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">404.</h1>
+    </div>
 
-        <h1 class="h3 mb-3 font-weight-normal">Store Not Found.</h1>
-          <h2><router-link to="/register"><i>Register</i></router-link> your store to get started</h2><br><br>
-      </div>
 
-  </b-card>
   </page>
 </div>
 </template>

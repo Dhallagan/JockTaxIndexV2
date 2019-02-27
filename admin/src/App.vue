@@ -11,7 +11,7 @@
 
       <!-- BRAND NAME TEXT  -->
       <template slot='brand'>
-        <strong><i>TS Node Starter</i></strong>
+        <strong><i>JTI2</i></strong>
       </template>
 
       <!-- RIGHT SIDE NAV ITEMS -->
@@ -27,9 +27,21 @@
       <template slot='horizontal-menu-primary'>
         <!-- MENU ITEMS-->
         <willow-menu-item
-        icon='list'
-        title='Leagues'
-        href='/admin/leagues'
+          icon='list'
+          title='NHL'
+          href='/admin/leagues'
+        ></willow-menu-item>
+
+        <willow-menu-item
+          icon='list'
+          title='NBA'
+          href='/admin/leagues'
+        ></willow-menu-item>
+
+        <willow-menu-item
+          icon='list'
+          title='MLB'
+          href='/admin/leagues'
         ></willow-menu-item>
 
         <willow-menu-item
@@ -93,10 +105,21 @@
 
         <willow-menu-item
           icon='list'
-          title='Leagues'
+          title='NHL'
           href='/admin/leagues'
         ></willow-menu-item>
 
+        <willow-menu-item
+          icon='list'
+          title='NBA'
+          href='/admin/leagues'
+        ></willow-menu-item>
+
+        <willow-menu-item
+          icon='list'
+          title='MLB'
+          href='/admin/leagues'
+        ></willow-menu-item>
         <willow-menu-item
           icon='users'
           title='Users'
@@ -105,8 +128,8 @@
 
         <willow-menu-item
           icon='cog'
-          title='Settings'
-          href='/admin/Settings'
+          title='Account Settings'
+          href='/admin/settings/accounts'
         ></willow-menu-item>
 
       </template>
