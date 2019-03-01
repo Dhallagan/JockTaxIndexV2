@@ -90,7 +90,6 @@
           <b-col>
             <label for="inputLive">New Password</label>
             <b-form-input
-                  :value="userEditForm.newPassword"
                   type="password"
                   v-model="userEditForm.newPassword"
                   >
@@ -99,7 +98,6 @@
           <b-col>
             <label for="inputLive">Confirm Password</label>
             <b-form-input
-                  :value="userEditForm.confirmPassword"
                   type="text"
                   v-model="userEditForm.confirmPassword"
                   >
@@ -175,14 +173,21 @@ export default {
 
     updatePassword () {
       var params = {
-        id: this.user.Id,
-        password: this.passwordForm.newPassword,
-        confirmPassword: this.passwordForm.confirmPassword
+        id: this.userEditForm.id,
+        password: this.userEditForm.newPassword,
+        confirmPassword: this.userEditForm.confirmPassword
       }
-      console.log(params)
       api.updatePassword(params)
         .then(res => {
-          this.$router.go()
+          var messages = [res.data]
+          messages.forEach(message => {
+            message.type = 'success'
+          })
+          this.messages = messages
+          setTimeout(() => {
+            this.messages = {}
+            this.$router.replace({ name: 'Users' })
+          }, 3000)
         })
         .catch(error => {
           var messages = error.response.data.errors
@@ -204,13 +209,11 @@ export default {
         role: this.userEditForm.role,
         active: this.userEditForm.active === 'true'
       }
-      console.log(params)
       api.updateUserById(this.userEditForm.id, params)
         .then(res => {
           var messages = [res.data]
           messages.forEach(message => {
             message.type = 'success'
-            message.msg = 'Updated Successfully.'
           })
           this.messages = messages
           setTimeout(() => {

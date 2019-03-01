@@ -198,8 +198,7 @@ export class UserService {
         user.Active = active
         
         await this.userRepository.updateUser(id, user);
-        var updatedUser = await this.userRepository.getUserById(id)
-        return res.status(200).json(this.generateUserViewModel(updatedUser));
+        return res.status(200).json({'msg': 'Updated successfully.'});
     }
 
     public async updateAvatar(res: Response, id: number, avatar: string) {
