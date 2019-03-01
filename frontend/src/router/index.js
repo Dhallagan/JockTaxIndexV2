@@ -9,20 +9,13 @@ import Settings from '../pages/Settings'
 import InviteStaff from '../pages/InviteStaff'
 import Home from '../pages/Home'
 import Profile from '../pages/Profile'
-
-// import Reports from '../pages/Reports'
 import Account from '../pages/Account'
 import Users from '../pages/Users'
 import UsersEdit from '../pages/Users.Edit'
-// import Applicants from '../pages/Applicants'
-// import Applicant from '../pages/Applicant'
-// import Buildings from '../pages/Buildings'
-// import Building from '../pages/Building'
-// import Components from '../pages/Components'
-// import Listings from '../pages/Listings'
-// import Listing from '../pages/Listing'
-// import Tenants from '../pages/Tenants'
-// import AddLease from '../pages/AddLease'
+import Leagues from '../pages/Leagues'
+import LeaguesEdit from '../pages/Leagues.Edit'
+import LeaguesNew from '../pages/Leagues.New'
+
 import fourohfour from '../pages/404'
 Vue.use(Router)
 
@@ -112,6 +105,33 @@ export default new Router({
       name: 'Profile',
       meta: { layout: 'application', requiresAuth: true },
       component: Profile
+    },
+    {
+      path: '/admin/Leagues/',
+      name: 'Leagues',
+      meta: {
+        layout: 'application',
+        requiresAuth: true
+      },
+      component: Leagues
+    },
+    {
+      path: '/admin/Leagues/new',
+      name: 'NewLeague',
+      meta: {
+        layout: 'application',
+        requiresAuth: true
+      },
+      component: LeaguesNew
+    },
+    {
+      path: '/admin/Leagues/:league_id',
+      name: 'EditLeague',
+      meta: {
+        layout: 'application',
+        requiresAuth: true
+      },
+      component: LeaguesEdit
     }
   ]
 })
