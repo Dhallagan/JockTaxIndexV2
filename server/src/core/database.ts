@@ -1,5 +1,7 @@
 import {createConnection} from "typeorm";
 import {User} from "../entity/User";
+import {League} from "../entity/League";
+import {TaxIndex} from "../entity/TaxIndex";
 
 export class Database {
   //public static db: mysql.Connection
@@ -14,7 +16,7 @@ export class Database {
         password: process.env.DB_PASS,
         database: process.env.DB_DATABASE,
         synchronize: true,
-        entities: [User]
+        entities: [User, League, TaxIndex]
     });
   }
 }

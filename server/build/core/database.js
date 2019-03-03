@@ -37,6 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var typeorm_1 = require("typeorm");
 var User_1 = require("../entity/User");
+var League_1 = require("../entity/League");
+var TaxIndex_1 = require("../entity/TaxIndex");
 var Database = /** @class */ (function () {
     function Database() {
     }
@@ -52,7 +54,7 @@ var Database = /** @class */ (function () {
                         password: process.env.DB_PASS,
                         database: process.env.DB_DATABASE,
                         synchronize: true,
-                        entities: [User_1.User]
+                        entities: [User_1.User, League_1.League, TaxIndex_1.TaxIndex]
                     })];
             });
         });
