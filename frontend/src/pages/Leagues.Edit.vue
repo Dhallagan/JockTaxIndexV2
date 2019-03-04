@@ -17,8 +17,8 @@
           <b-col>
             <label for="inputLive">League Name</label>
             <b-form-input
-                  :value="editLeagueForm.firstName"
-                  v-model="editLeagueForm.firstName"
+                  :value="leagueForm.name"
+                  v-model="leagueForm.name"
                   type="text"
                   placeholder="First">
             </b-form-input>
@@ -29,9 +29,9 @@
           <b-col>
             <willow-select
               :label="'Active'"
-              :value="editLeagueForm.active"
+              :value="leagueForm.active"
               :options="[{ value: true, text: 'Active' },{ value: false, text: 'Inactive' }]"
-              v-model="editLeagueForm.active"
+              v-model="leagueForm.active"
             ></willow-select>
           </b-col>
           <b-col>
@@ -69,16 +69,9 @@ export default {
         ]
       },
       league: {},
-      editLeagueForm: {
-        id: null,
-        firstName: null,
-        lastName: null,
-        email: null,
-        phoneNumber: null,
-        role: null,
-        active: null,
-        newPassword: null,
-        confirmPassword: null
+      leagueForm: {
+        name: null,
+        active: null
       },
       messages: null
     }
@@ -86,6 +79,42 @@ export default {
 
   methods: {
     fetch () {
+      api.getLeague(this.$route.params.league_id)
+        .then(res => {
+          var league = res.data
+          console.log(league)
+          this.leagueForm.id = league.Id
+          this.leagueForm.name = league.Name
+          this.leagueForm.active = league.Active
+        })
+    },
+
+    updateLeague () {
+      var params = {
+        name: this.leagueForm.name,
+        active: this.leagueForm.active === 'true'
+      }
+      api.updateLeague(this.leagueForm.id, params)
+        .then(res => {
+          var messages = [res.data]
+          messages.forEach(message => {
+            message.type = 'success'
+          })
+          this.messages = messages
+          setTimeout(() => {
+            this.messages = {}
+            this.$router.replace({ name: 'Leagues' })
+          }, 3000)
+        })
+        .catch(error => {
+          var messages = error.response.data.errors
+
+          messages.forEach(message => {
+            message.type = 'danger'
+          })
+
+          this.messages = messages
+        })
     }
   }
 }

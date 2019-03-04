@@ -20,7 +20,7 @@ export class LeagueController extends BaseController {
             return res.status(422).json({ errors: errors.array() });
         }
 
-        return await this.leagueService.createLeague(res, viewModel.Name, viewModel.Active);
+        return await this.leagueService.createLeague(res, viewModel.name, viewModel.active);
     }
 
     public async getLeagues(req: Request, res: Response){
@@ -40,7 +40,7 @@ export class LeagueController extends BaseController {
             return res.status(422).json({ errors: errors.array() });
         }
 
-        return await this.leagueService.getLeague(res, req.params.id);
+        return await this.leagueService.getLeague(res, req.params.leagueId);
     }
 
     public async updateLeague(req: Request, res: Response) {
@@ -51,6 +51,6 @@ export class LeagueController extends BaseController {
             return res.status(422).json({ errors: errors.array() });
         }
 
-        return await this.leagueService.updateLeague(res, req.params.id, viewModel.Name, viewModel.Active);
+        return await this.leagueService.updateLeague(res, req.params.leagueId, viewModel.name, viewModel.active);
     }
 }

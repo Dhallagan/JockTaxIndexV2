@@ -17,8 +17,8 @@
           <b-col>
             <label for="inputLive">League Name</label>
             <b-form-input
-                  :value="editLeagueForm.firstName"
-                  v-model="editLeagueForm.firstName"
+                  :value="leagueForm.name"
+                  v-model="leagueForm.name"
                   type="text"
                   placeholder="League Name">
             </b-form-input>
@@ -29,9 +29,9 @@
           <b-col>
             <willow-select
               :label="'Active'"
-              :value="editLeagueForm.active"
+              :value="leagueForm.active"
               :options="[{ value: true, text: 'Active' },{ value: false, text: 'Inactive' }]"
-              v-model="editLeagueForm.active"
+              v-model="leagueForm.active"
             ></willow-select>
           </b-col>
           <b-col>
@@ -54,10 +54,6 @@
 <script>
 import api from '@/api/api'
 export default {
-  mounted () {
-    this.fetch()
-  },
-
   data () {
     return {
       pageheader: {
@@ -69,23 +65,38 @@ export default {
         ]
       },
       league: {},
-      editLeagueForm: {
-        id: null,
-        firstName: null,
-        lastName: null,
-        email: null,
-        phoneNumber: null,
-        role: null,
-        active: null,
-        newPassword: null,
-        confirmPassword: null
+      leagueForm: {
+        name: null,
+        active: true
       },
       messages: null
     }
   },
 
   methods: {
-    fetch () {
+    saveLeague () {
+      api.createLeague(this.leagueForm)
+        .then((res) => {
+          console.log(res.data)
+          var messages = [res.data]
+          messages.forEach(message => {
+            message.type = 'success'
+          })
+          this.messages = messages
+          setTimeout(() => {
+            this.messages = {}
+            this.$router.replace({ name: 'Leagues' })
+          }, 3000)
+        })
+        .catch(error => {
+          var messages = error.response.data.errors
+
+          messages.forEach(message => {
+            message.type = 'danger'
+          })
+
+          this.messages = messages
+        })
     }
   }
 }

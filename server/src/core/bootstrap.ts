@@ -7,6 +7,7 @@ import { Server } from './server';
 import { Authentication } from './middleware/authentication'
 import { UserRoutes } from '../routes/user.routes';
 import { HealthRoutes } from '../routes/health.routes';
+import { LeagueRoutes } from '../routes/league.routes';
 import * as dotenv from 'dotenv';
 
 const root = './';
@@ -72,6 +73,8 @@ export class Bootstrap {
         const healthRouter = new HealthRoutes().router;
         const userRouter = new UserRoutes().router;
         app.use('/api', userRouter);
-        //app.use('/api', usersRouter);
+
+        const leagueRouter = new LeagueRoutes().router;
+        app.use('/api', leagueRouter);
     }
 }

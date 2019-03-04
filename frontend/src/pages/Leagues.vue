@@ -8,7 +8,7 @@
     </template> -->
 
     <template slot="action-right">
-      <willow-button primary url="/admin/league/new">Add League</willow-button>
+      <willow-button primary url="/admin/leagues/new">Add League</willow-button>
     </template>
 
   </page-header>
@@ -24,10 +24,6 @@
     <b-table hover :items="leagues" :fields="fields">
       <template slot="League Name" slot-scope="data">
         {{data.item.Name}}
-      </template>
-
-      <template slot="Role" slot-scope="data">
-        {{data.item.Role}}
       </template>
 
       <template slot="Active" slot-scope="data">
@@ -58,21 +54,17 @@ export default {
   data () {
     return {
       fields: ['League Name', 'Active', 'Action'],
-      leagues: [
-        { Id: 0, Name: 'NHL', Active: false },
-        { Id: 0, Name: 'NBA', Active: false },
-        { Id: 0, Name: 'MLB', Active: false }
-      ]
+      leagues: {}
     }
   },
 
   methods: {
     fetch () {
-      // api.getLeagues()
-      //   .then(res => {
-      //     console.log(res.data)
-      //     this.leagues = res.data
-      //   })
+      api.getLeagues()
+        .then(res => {
+          console.log(res.data)
+          this.leagues = res.data
+        })
     }
   }
 }

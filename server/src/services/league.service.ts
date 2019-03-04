@@ -25,31 +25,32 @@ export class LeagueService {
         const leagues = await this.leagueRepository.getLeagues();
         console.log(leagues);
 
-        return res.status(200).json({leagues: leagues});
+        return res.status(200).json(leagues);
     }
 
     public async getLeague(res: Response, id: number) {
         const league = await this.leagueRepository.getLeagueById(id);
         console.log(league);
 
-        return res.status(200).json({league: league});
+        return res.status(200).json(league);
     }
 
     public async updateLeague(res: Response, id: number, name: string, active: boolean) {
-        const league = await this.leagueRepository.getLeagueById(id);
+        const leagueExists = await this.leagueRepository.getLeagueById(id)
+        const league = await this.leagueRepository.getLeagueByName(name);
         console.log(league)
 
-        if (!league) {
+        if (!leagueExists) {
             return res.status(422).json({'errors': [{'msg': 'League Id is invalid.'}]})
         }
 
-        if(league.Name == name) {
+        if(league && league.Id != leagueExists.Id) {
             return  res.status(422).json({'errors': [{'msg': 'The league name already exists.'}]})
         }
 
-        league.Name = name;
-        league.Active = active;
-        await this.leagueRepository.updateLeague(id, league);
+        leagueExists.Name = name;
+        leagueExists.Active = active;
+        await this.leagueRepository.updateLeague(id, leagueExists);
 
         return res.status(200).json({'msg': 'Updated successfully.'})
     }

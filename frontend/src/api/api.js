@@ -57,5 +57,21 @@ export default {
 
   sendInvite (params) {
     return HTTP.post('/invite', params)
+  },
+
+  createLeague (params) {
+    return HTTP.post('/leagues/new', params)
+  },
+
+  getLeagues () {
+    return HTTP.get('/leagues')
+  },
+
+  getLeague (id) {
+    return HTTP.get(`/leagues/${id}`)
+  },
+
+  updateLeague (id, params) {
+    return HTTP.post(`/leagues/${id}`, params)
   }
 }

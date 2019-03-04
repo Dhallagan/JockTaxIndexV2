@@ -7,7 +7,7 @@ export class League {
     @PrimaryGeneratedColumn()
     Id: number;
 
-    @Column({unique: true})
+    @Column()
     Name: string;
 
     @Column({default: true})

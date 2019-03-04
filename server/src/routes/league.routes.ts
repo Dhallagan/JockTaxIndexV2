@@ -6,14 +6,12 @@ import { Authentication } from '../core/middleware/authentication';
 export class LeagueRoutes extends BaseRoute {
     leagueController: LeagueController;
 
-
     constructor() {
         super();
         this.leagueController = new LeagueController();
 
         this.initRoutes();
     }
-
 
     initRoutes() {
         this.router.get('/leagues', Authentication.isAuthenticated, (req, res, next) => this.leagueController.getLeagues(req, res).catch(next));
