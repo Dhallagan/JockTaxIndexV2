@@ -25,4 +25,8 @@ export class LeagueRepository extends Repository<League> {
     public async updateLeague(id: number, league: League) {
         return await getConnection().manager.update(League, id, league);
     }
+
+    public async deleteLeague(id: number){
+        return await getConnection().manager.delete(League, id);
+    }
 }

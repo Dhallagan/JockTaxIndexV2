@@ -53,4 +53,14 @@ export class LeagueController extends BaseController {
 
         return await this.leagueService.updateLeague(res, req.params.leagueId, viewModel.name, viewModel.active);
     }
+
+    public async deleteLeague(req: Request, res: Response) {
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+
+        return await this.leagueService.deleteLeague(res, req.params.leagueId);
+    }
 }

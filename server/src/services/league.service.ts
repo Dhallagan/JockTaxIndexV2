@@ -32,6 +32,10 @@ export class LeagueService {
         const league = await this.leagueRepository.getLeagueById(id);
         console.log(league);
 
+        if (!league) {
+            return res.status(422).json({'errors': [{'msg': 'League does not exist.'}]})
+        }
+
         return res.status(200).json(league);
     }
 
@@ -41,7 +45,7 @@ export class LeagueService {
         console.log(league)
 
         if (!leagueExists) {
-            return res.status(422).json({'errors': [{'msg': 'League Id is invalid.'}]})
+            return res.status(422).json({'errors': [{'msg': 'League does not exist.'}]})
         }
 
         if(league && league.Id != leagueExists.Id) {
@@ -53,5 +57,17 @@ export class LeagueService {
         await this.leagueRepository.updateLeague(id, leagueExists);
 
         return res.status(200).json({'msg': 'Updated successfully.'})
+    }
+
+    public async deleteLeague(res: Response, id: number) {
+        const leagueExists = await this.leagueRepository.getLeagueById(id);
+
+        if (!leagueExists) {
+            return res.status(422).json({'errors': [{'msg': 'League does not exist.'}]});
+        }
+
+        await this.leagueRepository.deleteLeague(id);
+
+        return res.status(200).json({'msg': 'Removed successfully'});
     }
 }

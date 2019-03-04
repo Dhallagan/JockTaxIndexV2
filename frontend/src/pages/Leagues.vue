@@ -33,6 +33,7 @@
 
       <template slot="Action" slot-scope="data">
         <willow-button primary :url="'/admin/leagues/' + data.item.Id" >Edit</willow-button>
+        <willow-button destructive @click.native="deleteLeague(data.item.Id)">Delete</willow-button>
       </template>
 
     </b-table>
@@ -64,6 +65,17 @@ export default {
         .then(res => {
           console.log(res.data)
           this.leagues = res.data
+        })
+    },
+
+    deleteLeague (leagueId) {
+      api.deleteLeague(leagueId)
+        .then(res => {
+          console.log(res.data)
+          this.$router.go()
+        })
+        .catch(error => {
+          console.log(error.response.data.errors)
         })
     }
   }

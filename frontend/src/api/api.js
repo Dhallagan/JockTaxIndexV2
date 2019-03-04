@@ -60,7 +60,7 @@ export default {
   },
 
   createLeague (params) {
-    return HTTP.post('/leagues/new', params)
+    return HTTP.post('/leagues', params)
   },
 
   getLeagues () {
@@ -72,6 +72,10 @@ export default {
   },
 
   updateLeague (id, params) {
-    return HTTP.post(`/leagues/${id}`, params)
+    return HTTP.put(`/leagues/${id}`, params)
+  },
+
+  deleteLeague (id) {
+    return HTTP.delete(`/leagues/${id}`)
   }
 }

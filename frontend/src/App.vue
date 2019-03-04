@@ -120,6 +120,13 @@
           title='MLB'
           href='/admin/leagues'
         ></willow-menu-item>
+
+        <willow-menu-item
+          icon='list'
+          title='Leagues'
+          href='/admin/leagues'
+        ></willow-menu-item>
+
         <willow-menu-item
           icon='users'
           title='Users'
