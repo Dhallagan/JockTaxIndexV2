@@ -46,10 +46,10 @@ export class TaxIndex {
     @Column({type: 'float', nullable: true})
     ForeignTaxCredit: number;
 
-    @Column({default: null, nullable: true})
+    @Column({nullable: true})
     EffectiveStartDate: Date;
 
-    @Column({default: null, nullable: true})
+    @Column({nullable: true})
     EffectiveEndDate: Date;
 
 }
