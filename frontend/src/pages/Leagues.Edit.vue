@@ -10,7 +10,6 @@
   </page-header>
   <willow-messages v-for="(message, i) in messages" :key="i" :type="message.type" >{{message.msg}}</willow-messages>
 
-  
   <willow-layout>
   <!-- CARD -->
     <b-tabs class="col-sm-24">
@@ -59,7 +58,7 @@
           <template slot="Team" slot-scope="data">
             {{data.item.Team}}
           </template>
-          
+
           <template slot="Country" slot-scope="data">
             {{data.item.Country}}
           </template>
@@ -67,7 +66,7 @@
           <template slot="From" slot-scope="data">
             {{data.item.From}}
           </template>
-          
+
           <template slot="To" slot-scope="data">
             {{data.item.To}}
           </template>
@@ -86,7 +85,7 @@
           <template slot="State" slot-scope="data">
             {{data.item.StateTax}}
           </template>
-        
+
           <template slot="City" slot-scope="data">
             {{data.item.CityTax}}
           </template>
@@ -94,7 +93,7 @@
           <template slot="Fica" slot-scope="data">
             {{data.item.FicaTax}}
           </template>
-          
+
           <template slot="Credits" slot-scope="data">
             {{data.item.Credits}}
           </template>
@@ -102,7 +101,7 @@
            <template slot="Foreign Tax" slot-scope="data">
             {{data.item.ForeignTax}}
           </template>
-        
+
            <template slot="Foreign Tax Credit" slot-scope="data">
             {{data.item.ForeignTax}}
           </template>
@@ -139,7 +138,7 @@ export default {
       },
       messages: null,
       taxData: [
-        { 
+        {
           Team: 'St. Louis Blues',
           League: 'NHL',
           Country: 'USA',
@@ -153,7 +152,7 @@ export default {
           CityTax: 0.000764,
           Credits: 0,
           ForeignTax: 0,
-          ForeignTaxCredit: 0 
+          ForeignTaxCredit: 0
         }
       ],
       modalShow: true
