@@ -52,6 +52,8 @@ import WillowFiltersFieldTextfield from './components/WillowFiltersFieldTextfiel
 import WillowFiltersFieldCheckbox from './components/WillowFiltersFieldCheckbox'
 import WillowTextfield from './components/WillowTextfield'
 import WillowSelect from './components/WillowSelect'
+import WillowTableEditable from './components/WillowTableEditable'
+import WillowTableEditableRow from './components/WillowTableEditableRow'
 
 // Proprietary components
 Vue.component('authentication-layout', WillowAuthenticationLayout)
@@ -92,6 +94,8 @@ Vue.component('willow-filters-field-textfield', WillowFiltersFieldTextfield)
 Vue.component('willow-filters-field-checkbox', WillowFiltersFieldCheckbox)
 Vue.component('willow-textfield', WillowTextfield)
 Vue.component('willow-select', WillowSelect)
+Vue.component('willow-table-editable', WillowTableEditable)
+Vue.component('willow-table-editable-row', WillowTableEditableRow)
 
 // Third Party Components
 Vue.component('icon', Icon)
