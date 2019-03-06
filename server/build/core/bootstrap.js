@@ -16,6 +16,7 @@ var authentication_1 = require("./middleware/authentication");
 var user_routes_1 = require("../routes/user.routes");
 var health_routes_1 = require("../routes/health.routes");
 var league_routes_1 = require("../routes/league.routes");
+var taxIndex_routes_1 = require("../routes/taxIndex.routes");
 var dotenv = __importStar(require("dotenv"));
 var root = './';
 var Bootstrap = /** @class */ (function () {
@@ -71,6 +72,8 @@ var Bootstrap = /** @class */ (function () {
         app.use('/api', userRouter);
         var leagueRouter = new league_routes_1.LeagueRoutes().router;
         app.use('/api', leagueRouter);
+        var taxIndexRouter = new taxIndex_routes_1.TaxIndexRoutes().router;
+        app.use('/api', taxIndexRouter);
     };
     return Bootstrap;
 }());

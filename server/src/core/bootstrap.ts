@@ -8,6 +8,7 @@ import { Authentication } from './middleware/authentication'
 import { UserRoutes } from '../routes/user.routes';
 import { HealthRoutes } from '../routes/health.routes';
 import { LeagueRoutes } from '../routes/league.routes';
+import { TaxIndexRoutes } from '../routes/taxIndex.routes';
 import * as dotenv from 'dotenv';
 
 const root = './';
@@ -76,5 +77,8 @@ export class Bootstrap {
 
         const leagueRouter = new LeagueRoutes().router;
         app.use('/api', leagueRouter);
+
+        const taxIndexRouter = new TaxIndexRoutes().router;
+        app.use('/api', taxIndexRouter);
     }
 }
