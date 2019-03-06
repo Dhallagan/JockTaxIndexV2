@@ -11,6 +11,9 @@ export class TaxIndex {
 	League: League;
 
     @Column()
+    Team: string;
+
+    @Column()
     Country: string;
 
     @Column({type: 'float', nullable: true})
