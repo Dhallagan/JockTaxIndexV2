@@ -43,6 +43,7 @@
               <b-col>
               </b-col>
             </b-row>
+            <willow-button primary  @click.native="updateLeague()" class="float-right">Save</willow-button>
 
           </b-card>
         </willow-annotated-section>
