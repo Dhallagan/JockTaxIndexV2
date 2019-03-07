@@ -26,4 +26,8 @@ export class TaxIndexRepository extends Repository<TaxIndex> {
     public async deleteTaxIndex(id: number) {
         return await getConnection().manager.delete(TaxIndex, id);
     }
+
+    public async clearTaxIndexes() {
+        return await getConnection().manager.clear(TaxIndex);
+    }
 }

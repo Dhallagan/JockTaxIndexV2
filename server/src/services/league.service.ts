@@ -30,7 +30,6 @@ export class LeagueService {
 
     public async getLeague(res: Response, id: number) {
         const league = await this.leagueRepository.getLeagueById(id);
-        console.log(league);
 
         if (!league) {
             return res.status(422).json({'errors': [{'msg': 'League does not exist.'}]})
@@ -42,7 +41,6 @@ export class LeagueService {
     public async updateLeague(res: Response, id: number, name: string, active: boolean) {
         const leagueExists = await this.leagueRepository.getLeagueById(id)
         const league = await this.leagueRepository.getLeagueByName(name);
-        console.log(league)
 
         if (!leagueExists) {
             return res.status(422).json({'errors': [{'msg': 'League does not exist.'}]})
