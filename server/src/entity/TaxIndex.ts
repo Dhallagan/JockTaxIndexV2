@@ -7,7 +7,9 @@ export class TaxIndex {
     @PrimaryGeneratedColumn()
     Id: number;
 
-    @ManyToOne(type => League, league => league.TabIndex)
+    @ManyToOne(type => League, league => league.TaxIndex, {
+        onDelete: 'CASCADE'
+    })
 	League: League;
 
     @Column()

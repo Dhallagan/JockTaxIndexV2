@@ -13,11 +13,9 @@ export class League {
     @Column({default: true})
     Active: Boolean;
 
-    @OneToMany(type => TaxIndex, tabIndex => tabIndex.League, {
+    @OneToMany(type => TaxIndex, taxIndex => taxIndex.League, {
 		eager: true,
-        cascade: true,
-        onDelete: 'CASCADE'
 	})
-    TabIndex: TaxIndex[];
+    TaxIndex: TaxIndex[];
 
 }
