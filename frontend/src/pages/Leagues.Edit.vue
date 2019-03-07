@@ -38,7 +38,7 @@
                   :label="'Active'"
                   :value="leagueForm.active"
                   :options="[{ value: true, text: 'Active' },{ value: false, text: 'Inactive' }]"
-                  v-model="leagueForm.active"
+                  v-model="leagueForm.active" @change="convertActiveValue"
                 ></willow-select>
               </b-col>
               <b-col>
@@ -161,7 +161,7 @@ export default {
     updateLeague () {
       var params = {
         name: this.leagueForm.name,
-        active: this.leagueForm.active === 'true'
+        active: this.leagueForm.active
       }
       api.updateLeague(this.leagueForm.id, params)
         .then(res => {
@@ -184,6 +184,14 @@ export default {
 
           this.messages = messages
         })
+    },
+
+    convertActiveValue (value) {
+      if (value === 'true') {
+        this.leagueForm.active = true
+      } else {
+        this.leagueForm.active = false
+      }
     },
 
     updateTaxImport (value) {
