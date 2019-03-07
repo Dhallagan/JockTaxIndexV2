@@ -6,7 +6,8 @@
     :breadcrumbs="pageheader.breadcrumbs"
   >
     <willow-button slot="action-right" class="mr-1" primary>Export</willow-button>
-    <willow-button slot="action-right" primary>Import</willow-button>
+    <!-- <willow-button slot="action-right" primary>Import</willow-button> -->
+    <willow-file-input slot="action-right" :url="`/leagues/${leagueForm.id}/taxIndexes/import`" :identifier="'TaxImport'" class="list-inline-item" @updateTaxImport="updateTaxImport">Import</willow-file-input>
   </page-header>
   <willow-messages v-for="(message, i) in messages" :key="i" :type="message.type" >{{message.msg}}</willow-messages>
 
@@ -53,7 +54,7 @@
         class="col-sm-24"
       >
         <willow-table-editable
-          :headings="['Team', 'Country','From', 'To','Net Income', 'Deductions', 'Federal', 'State', 'City', 'Fica', 'Credits', 'Foreign Tax', 'Foreign Tax Credit']"
+          :headings="['Team', 'Country', 'From', 'To', 'Net Income', 'Deductions', 'Federal', 'State', 'City', 'Fica', 'Credits', 'Foreign Tax', 'Foreign Tax Credit']"
           :rows="taxData"
         >
           <template slot="Team" slot-scope="data">
@@ -65,12 +66,13 @@
           </template>
 
           <template slot="From" slot-scope="data">
-            {{data.item.From}}
+            {{data.item.IncomeFrom}}
           </template>
 
           <template slot="To" slot-scope="data">
-            {{data.item.To}}
+            {{data.item.IncomeTo}}
           </template>
+
           <template slot="Net Income" slot-scope="data">
             {{data.item.NetIncome}}
           </template>
@@ -134,28 +136,12 @@ export default {
       },
       league: {},
       leagueForm: {
+        id: null,
         name: null,
         active: null
       },
       messages: null,
-      taxData: [
-        {
-          Team: 'St. Louis Blues',
-          League: 'NHL',
-          Country: 'USA',
-          From: 0,
-          To: 1000000000,
-          NetIncome: 0.543036865,
-          Deductions: 0.00465116,
-          FederalTax: 0.3772469,
-          FicaTax: 0.02565,
-          StateTax: 0.053303,
-          CityTax: 0.000764,
-          Credits: 0,
-          ForeignTax: 0,
-          ForeignTaxCredit: 0
-        }
-      ],
+      taxData: [],
       modalShow: true
     }
   },
@@ -168,6 +154,7 @@ export default {
           this.leagueForm.id = league.Id
           this.leagueForm.name = league.Name
           this.leagueForm.active = league.Active
+          this.taxData = league.TaxIndex
         })
     },
 
@@ -185,7 +172,7 @@ export default {
           this.messages = messages
           setTimeout(() => {
             this.messages = {}
-            this.$router.replace({ name: 'Leagues' })
+            this.$router.push({ name: 'Leagues' })
           }, 3000)
         })
         .catch(error => {
@@ -197,6 +184,19 @@ export default {
 
           this.messages = messages
         })
+    },
+
+    updateTaxImport (value) {
+      console.log(value)
+      var messages = [value]
+      messages.forEach(message => {
+        message.type = 'success'
+      })
+      this.messages = messages
+      setTimeout(() => {
+        this.messages = {}
+        this.fetch()
+      }, 3000)
     }
   }
 }

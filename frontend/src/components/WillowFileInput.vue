@@ -40,7 +40,7 @@ export default {
       }})
         .then(res => {
           console.log(res)
-          this.$emit('update' + this.identifier, res.file)
+          this.$emit('update' + this.identifier, res.data)
         })
     },
 
