@@ -1,7 +1,6 @@
 <template>
   <div class="container-fluid">
 
-
   <!-- Don't Touch Above! -->
   <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-24">
@@ -30,7 +29,7 @@
                               <option value="11">11</option>
                               <option value="12">12</option>
                             </select>
-                        </div>   
+                        </div>
 
                         <!-- ELMER POPULATE TEAMS HERE BASED OFF OF TEAMS IN THE INDEX -->
                         <label for="team1">Offer From</label>
@@ -104,7 +103,7 @@
                           <option value="Vegas Golden Knights">Vegas Golden Knights</option>
                           <option value="Washington Capitals">Washington Capitals</option>
                           <option value="Winnipeg Jets">Winnipeg Jets</option></select>
-                       
+
                         </div>
                         <label for="escrow">Escrow</label>
                         <div class="form-group">
@@ -165,6 +164,6 @@
 
 <script>
 export default {
-  
+
 }
 </script>

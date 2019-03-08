@@ -85,7 +85,7 @@ export default {
           this.messages = messages
           setTimeout(() => {
             this.messages = {}
-            this.$router.replace({ name: 'Leagues' })
+            this.$router.push({ name: 'Leagues' })
           }, 3000)
         })
         .catch(error => {

@@ -27,20 +27,16 @@
       <template slot='horizontal-menu-primary'>
         <!-- MENU ITEMS-->
         <willow-menu-item
-          icon='list'
-          title='NHL'
-          href='/admin/leagues'
+          v-for="(league, key) in leagues"
+          :key="key"
+          icon="list"
+          :title="league.Name"
+          :href="`/app/league/${league.Id}/compare`"
         ></willow-menu-item>
 
         <willow-menu-item
           icon='list'
-          title='NBA'
-          href='/admin/leagues'
-        ></willow-menu-item>
-
-        <willow-menu-item
-          icon='list'
-          title='MLB'
+          title='Leagues'
           href='/admin/leagues'
         ></willow-menu-item>
 
@@ -104,21 +100,11 @@
         </willow-vertical-submenu> -->
 
         <willow-menu-item
-          icon='list'
-          title='NHL'
-          href='/admin/leagues'
-        ></willow-menu-item>
-
-        <willow-menu-item
-          icon='list'
-          title='NBA'
-          href='/admin/leagues'
-        ></willow-menu-item>
-
-        <willow-menu-item
-          icon='list'
-          title='MLB'
-          href='/admin/leagues'
+          v-for="(league, key) in leagues"
+          :key="key"
+          icon="list"
+          :title="league.Name"
+          :href="`/app/league/${league.Id}/compare`"
         ></willow-menu-item>
 
         <willow-menu-item
@@ -203,8 +189,14 @@
 </template>
 
 <script>
+import api from '@/api/api'
+
 export default {
   name: 'App',
+
+  mounted () {
+    this.fetch()
+  },
 
   data () {
     return {
@@ -219,7 +211,8 @@ export default {
       notifications: {
         message: '<strong>Test</strong> notification',
         type: 'info'
-      }
+      },
+      leagues: []
     }
   },
 
@@ -231,6 +224,13 @@ export default {
   },
 
   methods: {
+    fetch () {
+      api.getLeagues()
+        .then(res => {
+          this.leagues = res.data
+        })
+    },
+
     notify () {
       this.$refs.notifications.add(
         this.notifications.message,
