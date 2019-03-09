@@ -7,7 +7,7 @@
       <div class="panel">
           <div class="panel-body hidden-print">
             <h4>Options</h4>
-            <form role="form" action="/nhl" method="post">
+            <div role="form" action="/nhl" method="post">
                <label for="contract">Contract Amount</label>
                <div class="form-group">
                   <input type="text" name="contract" id="contract" value="10000000" placeholder="10000000" class="selectpicker">
@@ -34,14 +34,14 @@
                <!-- ELMER POPULATE TEAMS HERE BASED OFF OF TEAMS IN THE INDEX -->
                <label for="team1">Offer From</label>
                <div class="form-group">
-                  <select name="team1" id="team1" class="selectpicker">
+                  <select name="team1" id="team1" class="selectpicker" v-model="state.team1">
                      <option v-for="(taxIndex, key) in taxIndexes" :key="key" :value="taxIndex.Id">{{ taxIndex.Team }}</option>
                   </select>
                </div>
                <!-- ELMER POPULATE TEAMS HERE BASED OFF OF TEAMS IN THE INDEX -->
                <label for="team2">Competing Offer(s) For</label>
                <div class="form-group">
-                  <select name="team2" id="team2" class="selectpicker">
+                  <select name="team2" id="team2" class="selectpicker" v-model="state.team2">
                      <option v-for="(taxIndex, key) in taxIndexes" :key="key" :value="taxIndex.Id">{{ taxIndex.Team }}</option>
                   </select>
                </div>
@@ -92,9 +92,9 @@
                      </select>
                </div>
                <div class="clearfix mtop15"></div>
-               <button class="button btn btn-primary pull-right mtop15" id="submit-button">Submit</button>
+               <button class="button btn btn-primary pull-right mtop15" id="submit-button" @click="handleCompareSubmit()">Submit</button>
 
-            </form>
+            </div>
          </div>
         </div>
       </div>
@@ -197,7 +197,8 @@ export default {
       state: {
         isLoading: false,
         isDirty: false,
-        team1: null
+        team1: null,
+        team2: null
       },
       taxIndexes: {}
     }
@@ -209,6 +210,9 @@ export default {
         .then(res => {
           this.taxIndexes = res.data
         })
+    },
+    handleCompareSubmit () {
+      alert(this.state.team1 + '|' + this.state.team2)
     }
   }
 }
