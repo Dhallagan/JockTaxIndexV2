@@ -34,7 +34,6 @@ export class TaxIndexService {
         }
 
         const taxIndexes = await this.taxIndexRepository.getTaxIndexes(league);
-        console.log()
 
         return res.status(200).json(taxIndexes);
     }

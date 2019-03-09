@@ -77,5 +77,9 @@ export default {
 
   deleteLeague (id) {
     return HTTP.delete(`/leagues/${id}`)
+  },
+
+  getTaxIndexes (leagueId) {
+    return HTTP.get(`/leagues/${leagueId}/taxIndexes`)
   }
 }
