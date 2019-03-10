@@ -94,4 +94,24 @@ export class TaxIndexController extends BaseController {
 
         form.parse(req);
     }
+
+    public async getCompareIndexes(req: Request, res: Response) {
+        const errors = validationResult(req);
+        
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+
+        console.log(req.query)
+
+        const leagueId = req.params.leagueId;
+        var team1 = req.query.team1
+        var team2 = req.query.team2
+        var contractAmount = req.query.contractAmount
+        var contractLength = req.query.contractLength
+        var escrow = req.query.escrow
+        var discountRate = req.query.discountRate
+
+        return await this.taxIndexService.CompareIndexes(res, leagueId, team1, team2, contractAmount, contractLength, escrow, discountRate)
+    }
 }

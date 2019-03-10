@@ -17,6 +17,7 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.10.0",
     "lodash": "^4.17.10",
+    "numeral": "^2.0.6",
     "rems-vue": "^0.1.0",
     "vue": "^2.5.2",
     "vue-avatar": "^2.1.6",

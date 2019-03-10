@@ -1,5 +1,5 @@
 
-export class Property {
+export class TaxCompareVM {
 
     username: number;
 

@@ -81,5 +81,9 @@ export default {
 
   getTaxIndexes (leagueId) {
     return HTTP.get(`/leagues/${leagueId}/taxIndexes`)
+  },
+
+  getTaxIndexCompare (leagueId, params) {
+    return HTTP.get(`/leagues/${leagueId}/compare`, { params })
   }
 }

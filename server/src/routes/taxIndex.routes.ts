@@ -20,5 +20,6 @@ export class TaxIndexRoutes extends BaseRoute {
         this.router.put('/leagues/:leagueId/taxIndex/:taxIndexId', Authentication.isAuthenticated, (req, res, next) => this.taxIndexController.updateTaxIndex(req, res).catch(next));
         this.router.delete('/leagues/:leagueId/taxIndex/:taxIndexId', Authentication.isAuthenticated, (req, res, next) => this.taxIndexController.deleteTaxIndex(req, res).catch(next));
         this.router.post('/leagues/:leagueId/taxIndexes/import', (req, res, next) => this.taxIndexController.importTaxIndexes(req, res).catch(next));
+        this.router.get('/leagues/:leagueId/compare', Authentication.isAuthenticated, (req, res, next) => this.taxIndexController.getCompareIndexes(req, res).catch(next));
     }
 }

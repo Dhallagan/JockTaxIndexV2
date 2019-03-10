@@ -2,12 +2,14 @@ import { Response } from 'express';
 import { TaxIndexRepository } from "../repositories/taxIndex.repository";
 import { LeagueRepository } from './../repositories/league.repository';
 import readXlsxFile from 'read-excel-file/node'
+import {Tax} from './../models/Tax'
+import { AnyTxtRecord } from 'dns';
 
 export class TaxIndexService {
 
     private taxIndexRepository: TaxIndexRepository;
     private leagueRepository: LeagueRepository;
-
+x
     constructor() {
         this.taxIndexRepository = new TaxIndexRepository();
         this.leagueRepository = new LeagueRepository();
@@ -46,7 +48,7 @@ export class TaxIndexService {
         }
 
         const taxIndex = await this.taxIndexRepository.getTaxIndex(league, taxIndexId);
-        console.log(taxIndex);
+        //e.log(taxIndex);
 
         if (!taxIndex) {
             return res.status(422).json({'errors': [{'msg': 'TaxIndex does not exist.'}]})
@@ -180,5 +182,135 @@ export class TaxIndexService {
         await this.taxIndexRepository.createTaxIndex(data.rows);
 
         return res.status(200).json({'msg': 'Tax Data has been imported successfully.'});
+    }
+
+    public async CompareIndexes(res: Response, leagueId: number, team1ID: number, team2ID: number, contractAmount: number, contractLength: number, escrow: number, discountRate: number) {
+        const league = await this.leagueRepository.getLeagueById(leagueId);
+
+        if (!league) {
+            return res.status(422).json({'errors': [{'msg': 'League does not exist.'}]})
+        }
+       
+        const team1Index = await this.taxIndexRepository.getTaxIndex(league, team1ID);
+        const team2Index = await this.taxIndexRepository.getTaxIndex(league, team2ID);
+    
+        if(!team1Index || !team2Index)
+            return res.status(422).json({'errors': [{'msg': 'Missing one of the team indexes.'}]})
+        
+        var team1tax = this.CalculateTax(team1Index, contractAmount, contractLength, escrow, discountRate)
+        var team2tax = this.CalculateTax(team1Index, contractAmount, contractLength, escrow, discountRate)
+
+        var comparision = {
+            'comparision': {
+                'team1': {
+                    'index': team1Index,
+                    'tax': team1tax
+                },
+                'team2': {
+                    'index': team2Index,
+                    'tax': team2tax
+                }
+            }
+        }
+        
+        return res.status(200).json(comparision);
+    }
+
+    public CalculateTax(teamIndex: any, contractAmount: number, contractLength: number, escrow: number, discountRate: number) {
+        //var tax = new tax();
+        
+        var tax = {
+            team: 0,
+            income: 0,
+            taxableincome: 0,
+            deductions: 0,
+            netIncome: 0, 
+            federalTax: 0,
+            stateTax: 0,
+            cityTax: 0,
+            socialSecurity: 0,
+            medicare: 0,
+            aav: 0,
+            netaav: 0,
+            taxRate: 0,
+            escrow: 0,
+            years: 0,
+            totalTax: 0
+        }
+
+        if (escrow) {
+        } else {
+          escrow = 0;
+        }
+    
+        tax.escrow = contractAmount * escrow
+        
+        var adjContractAmount = contractAmount * (1 - escrow)
+    
+        if(teamIndex.Country == "CA"){
+            var deductions = adjContractAmount * teamIndex.Deductions
+            var federalTax = adjContractAmount * teamIndex.FederalTax
+            var taxableincome = adjContractAmount - deductions
+            var stateTax = adjContractAmount * teamIndex.StateTax
+            var cityTax = adjContractAmount * teamIndex.cityTax
+            var ficaTax = adjContractAmount * teamIndex.ficaTax
+            var medicare = adjContractAmount * teamIndex.MedicareTax
+            var socialSecurity = 0
+            federalTax = federalTax - socialSecurity
+            var totalTax = federalTax + stateTax + cityTax + ficaTax
+            var netIncome = adjContractAmount * teamIndex.NetIncome
+            var netaav = netIncome  / contractLength
+            var aav = adjContractAmount/ contractLength
+            var taxRate = 1-netIncome/adjContractAmount
+
+        } else {
+            var deductions = adjContractAmount * teamIndex.Deductions
+            var federalTax = adjContractAmount * teamIndex.FederalTax
+            var taxableincome = adjContractAmount - deductions
+            var stateTax = adjContractAmount * teamIndex.StateTax
+            var cityTax = adjContractAmount * teamIndex.CityTax
+            var ficaTax = adjContractAmount * teamIndex.ficaTax
+            var medicare = adjContractAmount * teamIndex.MedicareTax
+            var socialSecurity = 7347
+            federalTax = federalTax - socialSecurity
+            var totalTax = federalTax + stateTax + cityTax + medicare +socialSecurity
+            var netIncome = adjContractAmount * teamIndex.NetIncome
+            var netaav = netIncome  / contractLength
+            var aav = adjContractAmount/ contractLength
+            var taxRate = 1-netIncome/adjContractAmount
+        }
+
+        var deductions = adjContractAmount * teamIndex.Deductions
+        var federalTax = adjContractAmount * teamIndex.FederalTax
+        var taxableincome = adjContractAmount - deductions
+        var stateTax = adjContractAmount * teamIndex.StateTax
+        var cityTax = adjContractAmount * teamIndex.CityTax
+        var medicare = adjContractAmount * teamIndex.MedicareTax
+        var socialSecurity = 7347
+        federalTax = federalTax - socialSecurity
+        var totalTax = federalTax + stateTax + cityTax + ficaTax
+        var netIncome = adjContractAmount * teamIndex.NetIncome
+        var netaav = netIncome  / contractLength
+        var aav = adjContractAmount/ contractLength
+        var taxRate = 1-netIncome/adjContractAmount
+    
+    
+        tax.team = teamIndex.Team
+        tax.income = adjContractAmount
+        tax.taxableincome = taxableincome
+        tax.deductions = deductions
+        tax.federalTax = federalTax
+        tax.stateTax = stateTax
+        tax.cityTax = cityTax
+        tax.totalTax = totalTax
+        tax.netIncome = netIncome
+        tax.aav = aav
+        tax.netaav = netaav
+        tax.socialSecurity = socialSecurity
+        tax.medicare = medicare
+        tax.taxRate = taxRate
+        tax.years = contractLength
+
+        return tax
     }
 }

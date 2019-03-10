@@ -10,17 +10,17 @@
             <div role="form" action="/nhl" method="post">
                <label for="contract">Contract Amount</label>
                <div class="form-group">
-                  <input type="text" name="contract" id="contract" value="10000000" placeholder="10000000" class="selectpicker">
+                  <input type="text" name="contract" id="contract" value="10000000" class="selectpicker" v-model="state.contractAmount">
                </div>
                <label for="years">Years</label>
                <div class="form-group">
 
-                  <select name="years" id="years" class="selectpicker" value="5">
+                  <select name="years" id="years" class="selectpicker" value="5" v-model="state.contractLength">
                      <option value="1">1</option>
                      <option value="2">2</option>
                      <option value="3">3</option>
                      <option value="4">4</option>
-                     <option value="5" selected="">5</option>
+                     <option value="5">5</option>
                      <option value="6">6</option>
                      <option value="7">7</option>
                      <option value="8">8</option>
@@ -47,8 +47,8 @@
                </div>
                <label for="escrow">Escrow</label>
                <div class="form-group">
-                  <select name="escrow" id="escrow" class="selectpicker">
-                     <option selected="" value="0.00">0%</option>
+                  <select name="escrow" id="escrow" class="selectpicker" v-model="state.escrow">
+                     <option value="0.00">0%</option>
                      <option value="0.01">1%</option>
                      <option value="0.02">2%</option>
                      <option value="0.03">3%</option>
@@ -76,14 +76,15 @@
                <h4>Present Value</h4>
                <label for="discountrate">Discount Rate</label>
                <div class="form-group">
-                  <select name="discountrate" id="discountrate" class="selectpicker"><option value="0.0">0.0</option>
+                  <select name="discountrate" id="discountrate" class="selectpicker" v-model="state.discountRate">
+                     <option value="0.0">0.0</option>
                      <option value="0.01">0.01</option>
                      <option value="0.02">0.02</option>
                      <option value="0.03">0.03</option>
                      <option value="0.04">0.04</option>
                      <option value="0.05">0.05</option>
                      <option value="0.06">0.06</option>
-                     <option value="0.07" selected="">0.07</option>
+                     <option value="0.07">0.07</option>
                      <option value="0.08">0.08</option>
                      <option value="0.09">0.09</option>
                      <option value="0.1">0.10</option>
@@ -186,7 +187,11 @@
 
 <script>
 import api from '@/api/api'
+import {Numbers} from '@/mixins'
 export default {
+  mixins: [
+     Numbers
+  ],
   mounted () {
     this.fetch()
   },
@@ -197,6 +202,10 @@ export default {
       state: {
         isLoading: false,
         isDirty: false,
+        contractAmount: 10000000,
+        contractLength: 5,
+        escrow: '0.00',
+        discountRate: '0.07',
         team1: null,
         team2: null
       },
@@ -209,11 +218,26 @@ export default {
       api.getTaxIndexes(this.$route.params.league_id)
         .then(res => {
           this.taxIndexes = res.data
-        })
-    },
-    handleCompareSubmit () {
-      alert(this.state.team1 + '|' + this.state.team2)
-    }
+        }) 
+     },
+     handleCompareSubmit () {
+       alert(this.$route.params.league_id + '|' + this.state.team1 + '|' + this.state.team2)
+
+       var params = { 
+         contractAmount: this.state.contractAmount,
+         contractLength: this.state.contractLength,
+         escrow: this.state.escrow,
+         discountRate: this.state.discountRate,
+         team1: this.state.team1,
+         team2: this.state.team2
+       }
+
+       api.getTaxIndexCompare(this.$route.params.league_id, params)
+         .then(res => {
+           console.log(res.data)
+           this.taxIndexes = res.data
+         })
+     }
   }
 }
 </script>
