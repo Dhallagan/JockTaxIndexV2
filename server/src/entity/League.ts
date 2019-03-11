@@ -11,7 +11,7 @@ export class League {
     Name: string;
 
     @Column({default: true})
-    Active: Boolean;
+    Active: boolean;
 
     @OneToMany(type => TaxIndex, taxIndex => taxIndex.League, {
 		eager: true,

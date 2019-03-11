@@ -190,7 +190,7 @@ import api from '@/api/api'
 import {Numbers} from '@/mixins'
 export default {
   mixins: [
-     Numbers
+    Numbers
   ],
   mounted () {
     this.fetch()
@@ -209,7 +209,8 @@ export default {
         team1: null,
         team2: null
       },
-      taxIndexes: {}
+      taxIndexes: {},
+      comparedTaxIndexes: {}
     }
   },
 
@@ -218,26 +219,26 @@ export default {
       api.getTaxIndexes(this.$route.params.league_id)
         .then(res => {
           this.taxIndexes = res.data
-        }) 
-     },
-     handleCompareSubmit () {
-       alert(this.$route.params.league_id + '|' + this.state.team1 + '|' + this.state.team2)
+        })
+    },
+    handleCompareSubmit () {
+      alert(this.$route.params.league_id + '|' + this.state.team1 + '|' + this.state.team2)
 
-       var params = { 
-         contractAmount: this.state.contractAmount,
-         contractLength: this.state.contractLength,
-         escrow: this.state.escrow,
-         discountRate: this.state.discountRate,
-         team1: this.state.team1,
-         team2: this.state.team2
-       }
+      var params = {
+        contractAmount: this.state.contractAmount,
+        contractLength: this.state.contractLength,
+        escrow: this.state.escrow,
+        discountRate: this.state.discountRate,
+        team1: this.state.team1,
+        team2: this.state.team2
+      }
 
-       api.getTaxIndexCompare(this.$route.params.league_id, params)
-         .then(res => {
-           console.log(res.data)
-           this.taxIndexes = res.data
-         })
-     }
+      api.getTaxIndexCompare(this.$route.params.league_id, params)
+        .then(res => {
+          console.log(res.data)
+          this.comparedTaxIndexes = res.data
+        })
+    }
   }
 }
 </script>

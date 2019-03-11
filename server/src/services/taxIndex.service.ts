@@ -198,7 +198,7 @@ x
             return res.status(422).json({'errors': [{'msg': 'Missing one of the team indexes.'}]})
         
         var team1tax = this.CalculateTax(team1Index, contractAmount, contractLength, escrow, discountRate)
-        var team2tax = this.CalculateTax(team1Index, contractAmount, contractLength, escrow, discountRate)
+        var team2tax = this.CalculateTax(team2Index, contractAmount, contractLength, escrow, discountRate)
 
         var comparision = {
             'comparision': {
@@ -217,83 +217,32 @@ x
     }
 
     public CalculateTax(teamIndex: any, contractAmount: number, contractLength: number, escrow: number, discountRate: number) {
-        //var tax = new tax();
-        
-        var tax = {
-            team: 0,
-            income: 0,
-            taxableincome: 0,
-            deductions: 0,
-            netIncome: 0, 
-            federalTax: 0,
-            stateTax: 0,
-            cityTax: 0,
-            socialSecurity: 0,
-            medicare: 0,
-            aav: 0,
-            netaav: 0,
-            taxRate: 0,
-            escrow: 0,
-            years: 0,
-            totalTax: 0
-        }
+        var tax = new Tax();
 
-        if (escrow) {
-        } else {
+        if (!escrow) {
           escrow = 0;
         }
     
         tax.escrow = contractAmount * escrow
-        
-        var adjContractAmount = contractAmount * (1 - escrow)
-    
-        if(teamIndex.Country == "CA"){
-            var deductions = adjContractAmount * teamIndex.Deductions
-            var federalTax = adjContractAmount * teamIndex.FederalTax
-            var taxableincome = adjContractAmount - deductions
-            var stateTax = adjContractAmount * teamIndex.StateTax
-            var cityTax = adjContractAmount * teamIndex.cityTax
-            var ficaTax = adjContractAmount * teamIndex.ficaTax
-            var medicare = adjContractAmount * teamIndex.MedicareTax
-            var socialSecurity = 0
-            federalTax = federalTax - socialSecurity
-            var totalTax = federalTax + stateTax + cityTax + ficaTax
-            var netIncome = adjContractAmount * teamIndex.NetIncome
-            var netaav = netIncome  / contractLength
-            var aav = adjContractAmount/ contractLength
-            var taxRate = 1-netIncome/adjContractAmount
 
-        } else {
-            var deductions = adjContractAmount * teamIndex.Deductions
-            var federalTax = adjContractAmount * teamIndex.FederalTax
-            var taxableincome = adjContractAmount - deductions
-            var stateTax = adjContractAmount * teamIndex.StateTax
-            var cityTax = adjContractAmount * teamIndex.CityTax
-            var ficaTax = adjContractAmount * teamIndex.ficaTax
-            var medicare = adjContractAmount * teamIndex.MedicareTax
-            var socialSecurity = 7347
-            federalTax = federalTax - socialSecurity
-            var totalTax = federalTax + stateTax + cityTax + medicare +socialSecurity
-            var netIncome = adjContractAmount * teamIndex.NetIncome
-            var netaav = netIncome  / contractLength
-            var aav = adjContractAmount/ contractLength
-            var taxRate = 1-netIncome/adjContractAmount
+        var adjContractAmount = contractAmount * (1 - escrow)
+        var socialSecurity = 7347
+
+        if(teamIndex.Country == "CA") {
+            socialSecurity = 0
         }
 
         var deductions = adjContractAmount * teamIndex.Deductions
-        var federalTax = adjContractAmount * teamIndex.FederalTax
+        var federalTax = adjContractAmount * teamIndex.FederalTax - socialSecurity
         var taxableincome = adjContractAmount - deductions
         var stateTax = adjContractAmount * teamIndex.StateTax
         var cityTax = adjContractAmount * teamIndex.CityTax
-        var medicare = adjContractAmount * teamIndex.MedicareTax
-        var socialSecurity = 7347
-        federalTax = federalTax - socialSecurity
-        var totalTax = federalTax + stateTax + cityTax + ficaTax
+        var medicare = adjContractAmount * teamIndex.FicaTax
+        var totalTax = federalTax + stateTax + cityTax + medicare + socialSecurity
         var netIncome = adjContractAmount * teamIndex.NetIncome
         var netaav = netIncome  / contractLength
         var aav = adjContractAmount/ contractLength
-        var taxRate = 1-netIncome/adjContractAmount
-    
+        var taxRate = 1 - netIncome/adjContractAmount
     
         tax.team = teamIndex.Team
         tax.income = adjContractAmount

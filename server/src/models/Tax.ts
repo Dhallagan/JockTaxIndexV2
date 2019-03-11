@@ -1,34 +1,20 @@
 export class Tax {
-  Income: Number = 0
-  TaxableIncome: Number  = 0
-  Deduction: Number = 0
-  NetIncome: Number = 0
-  FederalTax: Number = 0
-  StateTax: Number = 0
-  CityTax: Number = 0
-  SocialSecurity: Number = 0
-  Medicare: Number  = 0
-  Aav: Number = 0
-  NetAav: Number = 0
-  TaxRate: Number = 0
-  Escrow: Number = 0
-  Years: Number = 0
 
-  constructor (){}
+  team: string;
+  income: number = 0;
+  taxableincome: number = 0;
+  deductions: number = 0;
+  netIncome: number = 0;
+  federalTax: number = 0;
+  stateTax: number = 0;
+  cityTax: number = 0;
+  socialSecurity: number = 0;
+  medicare: number = 0;
+  aav: number = 0;
+  netaav: number = 0;
+  taxRate: number = 0;
+  escrow: number = 0;
+  years: number = 0;
+  totalTax: number = 0;
 
 }
-
-// team : "",
-// income : "",
-// taxableincome : "",
-// deduction : "",
-// netIncome : "", federalTax : "",
-// stateTax : "",
-// cityTax : "",
-// socialSecurity : "",
-// medicare : "",
-// aav: "",
-// netaav : "",
-// taxRate: "",
-// escrow: "",
-// years:""
