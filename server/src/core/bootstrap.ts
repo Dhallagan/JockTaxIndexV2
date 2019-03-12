@@ -25,7 +25,7 @@ export class Bootstrap {
 
     public setupEnviroment(app: express.Application): void {
         console.log('Setting up enviroment variables...');
-        dotenv.config({ path: "./src/config/.env.development" });
+        dotenv.config({ path: "./src/config/.env" });
     }
 
     public setupDatabase(app: express.Application): void {

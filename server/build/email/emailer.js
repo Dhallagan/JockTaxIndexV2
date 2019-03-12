@@ -18,7 +18,7 @@ var Emailer = /** @class */ (function () {
             from: Emailer.fromEmail,
             subject: 'Welcome to TS-Node-Starter',
             html: "<p>Welcome to TS-Node-Starter.  To finish registration please click or paste this link into your browser to complete the process. </p>" +
-                "<p><a href='http://localhost:8080/verify/" + emailVerifyToken + "'>http://localhost:8080/verify/" + emailVerifyToken + "</a> </p>"
+                "<p><a href='" + process.env.APP_URL + "/verify/" + emailVerifyToken + "'>" + process.env.APP_URL + "/verify/" + emailVerifyToken + "</a> </p>"
         };
         Emailer.send(mailData);
     };
@@ -29,7 +29,7 @@ var Emailer = /** @class */ (function () {
             from: Emailer.fromEmail,
             subject: 'Reset your TS-Node-Starter password',
             html: "<p>We have received your request to reset your password. Please click the link below to complete the reset:</p>" +
-                "<p><a href='http://localhost:8080/reset/" + passwordResetToken + "'>http://localhost:8080/reset/" + passwordResetToken + "</a> </p>"
+                "<p><a href='" + process.env.APP_URL + "/reset/" + passwordResetToken + "'>" + process.env.APP_URL + "/reset/" + passwordResetToken + "</a> </p>"
         };
         Emailer.send(mailData);
     };
@@ -52,7 +52,7 @@ var Emailer = /** @class */ (function () {
             from: Emailer.fromEmail,
             subject: fromUsername + ' invited you to TS-Node-Starter',
             html: "<p>Welcome to TS-Node-Starter.  To finish registration please click or paste this link into your browser to complete the process. </p>" +
-                "<p><a href='http://localhost:8080/verify/" + emailVerifyToken + "'>http://localhost:8080/verify/" + emailVerifyToken + "</a> </p>" +
+                "<p><a href='" + process.env.APP_URL + "/verify/" + emailVerifyToken + "'>" + process.env.APP_URL + "/verify/" + emailVerifyToken + "</a> </p>" +
                 "<p>This is your temporary password: " + password + "</p>"
         };
         Emailer.send(mailData);
