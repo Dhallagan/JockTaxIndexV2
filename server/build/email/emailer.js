@@ -69,8 +69,8 @@ var Emailer = /** @class */ (function () {
         var transporter = nodemailer.createTransport(smtpConfig);
         transporter.sendMail(mailData);
     };
-    Emailer.fromEmail = 'dylanhallagan@gmail.com';
-    Emailer.fromName = 'Dylan Hallagan';
+    Emailer.fromEmail = process.env.fromEmail;
+    Emailer.fromName = process.env.fromName;
     return Emailer;
 }());
 exports.Emailer = Emailer;

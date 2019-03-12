@@ -2,8 +2,8 @@ import * as nodemailer from 'nodemailer'
 
 export class Emailer {
     
-    static fromEmail = 'dylanhallagan@gmail.com';
-    static fromName = 'Dylan Hallagan';
+    static fromEmail = process.env.fromEmail;
+    static fromName = process.env.fromName;
 
 
     static welcomeEmail(email: string, username: string, emailVerifyToken: string) {
