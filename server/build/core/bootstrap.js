@@ -30,7 +30,7 @@ var Bootstrap = /** @class */ (function () {
     };
     Bootstrap.prototype.setupEnviroment = function (app) {
         console.log('Setting up enviroment variables...');
-        dotenv.config({ path: "./src/config/.env.development" });
+        dotenv.config({ path: "./src/config/.env" });
     };
     Bootstrap.prototype.setupDatabase = function (app) {
         // Retrieve all queries
