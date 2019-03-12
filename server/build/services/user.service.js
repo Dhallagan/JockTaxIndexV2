@@ -86,8 +86,8 @@ var UserService = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        firstname = firstname.toLowerCase();
-                        lastname = lastname.toLowerCase();
+                        // firstname = firstname.toLowerCase();
+                        // lastname = lastname.toLowerCase();
                         email = email.toLowerCase();
                         return [4 /*yield*/, this.userRepository.getUserByEmail(email)];
                     case 1:
@@ -104,7 +104,7 @@ var UserService = /** @class */ (function () {
                         console.log(user);
                         // Send email
                         emailer_1.Emailer.welcomeEmail(user.Email, user.FirstName + " " + user.LastName, user.EmailVerifyToken);
-                        return [2 /*return*/, res.status(200).json({ 'msg': 'Registration success! An email has been sent to ' + email + '.  Check your email to complete the registration process.' })];
+                        return [2 /*return*/, res.status(200).json({ 'msg': 'Registration success! An email has been sent to ' + email + '.  Check your email to complete the registration process.', 'token': this.generateToken(user), 'user': user })];
                 }
             });
         });

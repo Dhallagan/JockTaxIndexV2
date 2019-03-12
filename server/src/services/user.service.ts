@@ -45,8 +45,8 @@ export class UserService {
     }
 
     public async createUser(res: Response, firstname: string, lastname: string, email: string, password: string) {
-        firstname = firstname.toLowerCase();
-        lastname = lastname.toLowerCase();
+        // firstname = firstname.toLowerCase();
+        // lastname = lastname.toLowerCase();
         email = email.toLowerCase();
       
         const userExists = await this.userRepository.getUserByEmail(email)
@@ -61,7 +61,7 @@ export class UserService {
         // Send email
         Emailer.welcomeEmail(user.Email, user.FirstName + " " + user.LastName, user.EmailVerifyToken);
     
-        return res.status(200).json({'msg': 'Registration success! An email has been sent to '+ email + '.  Check your email to complete the registration process.'});
+        return res.status(200).json({'msg': 'Registration success! An email has been sent to '+ email + '.  Check your email to complete the registration process.', 'token': this.generateToken(user), 'user': user});
     }
 
     public async createUserNoVerification(res: Response, firstname: string, lastname: string, email: string, password: string) {

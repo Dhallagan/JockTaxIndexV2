@@ -12,8 +12,8 @@ export class Emailer {
         const mailData = {
             to: email,
             from: Emailer.fromEmail,
-            subject: 'Welcome to TS-Node-Starter',
-            html: "<p>Welcome to TS-Node-Starter.  To finish registration please click or paste this link into your browser to complete the process. </p>" +
+            subject: 'Welcome to JTI2',
+            html: "<p>Welcome to JTI2.  To finish registration please click or paste this link into your browser to complete the process. </p>" +
                   "<p><a href='" + process.env.APP_URL + "/verify/" + emailVerifyToken + "'>" + process.env.APP_URL + "/verify/" + emailVerifyToken + "</a> </p>"
         };
 
@@ -30,7 +30,7 @@ export class Emailer {
         const mailData = {
             to: email,
             from: Emailer.fromEmail,
-            subject: 'Reset your TS-Node-Starter password',
+            subject: 'Reset your JTI2 password',
             html: "<p>We have received your request to reset your password. Please click the link below to complete the reset:</p>" +
                   "<p><a href='" + process.env.APP_URL + "/reset/" + passwordResetToken + "'>" + process.env.APP_URL + "/reset/" + passwordResetToken + "</a> </p>"
         };
@@ -48,10 +48,10 @@ export class Emailer {
         const mailData = {
             to: email,
             from: Emailer.fromEmail,
-            subject: 'Your TS-Node-Starter password has been reset.',
-            html: "<p>The password for your account has been successfully reset.  If you didn’t make this change or if you believe an unauthorized person has accessed your account, go to TS-Node-Starter to reset your password immediately.</p>" +
-                  "<br><p>If you need additional help, contact TS-Node-Starter support.</p>" + 
-                  "<br><br><p>TS-Node-Starter Support</p>"
+            subject: 'Your JTI2 password has been reset.',
+            html: "<p>The password for your account has been successfully reset.  If you didn’t make this change or if you believe an unauthorized person has accessed your account, go to JTI2 to reset your password immediately.</p>" +
+                  "<br><p>If you need additional help, contact JTI2 support.</p>" +
+                  "<br><br><p>JTI2 Support</p>"
         };
 
         Emailer.send(mailData)
@@ -66,8 +66,8 @@ export class Emailer {
         const mailData = {
             to: email,
             from: Emailer.fromEmail,
-            subject: fromUsername + ' invited you to TS-Node-Starter',
-            html: "<p>Welcome to TS-Node-Starter.  To finish registration please click or paste this link into your browser to complete the process. </p>" +
+            subject: fromUsername + ' invited you to JTI2',
+            html: "<p>Welcome to JTI2.  To finish registration please click or paste this link into your browser to complete the process. </p>" +
                   "<p><a href='" + process.env.APP_URL + "/verify/" + emailVerifyToken + "'>" + process.env.APP_URL + "/verify/" + emailVerifyToken + "</a> </p>" +
                   "<p>This is your temporary password: " + password + "</p>"
         };
