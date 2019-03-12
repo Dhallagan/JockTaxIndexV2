@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Store from '../store'
 
-axios.defaults.baseURL = 'http://localhost:3000/api'
+axios.defaults.baseURL = process.env.API_URL;
 
 const HTTP = axios.create({
   baseURL: axios.defaults.baseURL,
