@@ -5,7 +5,7 @@
     title="Edit League"
     :breadcrumbs="pageheader.breadcrumbs"
   >
-    <willow-button slot="action-right" class="mr-1" primary>Export</willow-button>
+    <willow-button slot="action-right" class="mr-1" primary v-b-modal.myModal>Import With Example</willow-button>
     <!-- <willow-button slot="action-right" primary>Import</willow-button> -->
     <willow-file-input slot="action-right" :url="`/leagues/${leagueForm.id}/taxIndexes/import`" :identifier="'TaxImport'" class="list-inline-item" @updateTaxImport="updateTaxImport">Import</willow-file-input>
   </page-header>
@@ -114,6 +114,31 @@
     </b-tabs>
   </willow-layout>
 
+  <b-modal title="Import" id="myModal">
+    <b-row>
+      <b-col>
+        <h5>Upload a tax index</h5>
+      </b-col>
+    </b-row>
+    <b-row class="mb-4">
+      <b-col>
+        Example XLS
+      </b-col>
+      <b-col>
+        Elmer: This should return the headers schema with the name of the league prepolulated in the league column
+        <willow-button class="float-left"><i class="fa fa-file-download"></i>Download</willow-button>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        Upload File
+      </b-col>
+      <b-col>
+        Elemer: Import just like the other button here.
+        <willow-file-input class="float-left"><i class="fa fa-file-upload"></i>Import</willow-file-input>
+      </b-col>
+    </b-row>
+  </b-modal>
 </page>
 </template>
 
