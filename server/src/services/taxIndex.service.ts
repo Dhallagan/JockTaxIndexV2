@@ -2,6 +2,8 @@ import { Response } from 'express';
 import { TaxIndexRepository } from "../repositories/taxIndex.repository";
 import { LeagueRepository } from './../repositories/league.repository';
 import readXlsxFile from 'read-excel-file/node'
+import { Workbook } from 'exceljs'
+import Tempfile from 'tempfile'
 import {Tax} from './../models/Tax'
 import { AnyTxtRecord } from 'dns';
 
@@ -9,7 +11,7 @@ export class TaxIndexService {
 
     private taxIndexRepository: TaxIndexRepository;
     private leagueRepository: LeagueRepository;
-x
+
     constructor() {
         this.taxIndexRepository = new TaxIndexRepository();
         this.leagueRepository = new LeagueRepository();
@@ -123,11 +125,11 @@ x
                 prop: 'Country',
                 type: String
             },
-            'From': {
+            'IncomeFrom': {
                 prop: 'IncomeFrom',
                 type: Number
             },
-            'To': {
+            'IncomeTo': {
                 prop: 'IncomeTo',
                 type: Number
             },
@@ -261,5 +263,38 @@ x
         tax.years = contractLength
 
         return tax
+    }
+
+    public async downloadExampleIndex(res: Response) {
+        const workbook = new Workbook();
+        const sheet = workbook.addWorksheet('ExampleIndex');
+        const tempFilePath = Tempfile('.xlsx');
+        const exampleIndex = {
+            Team: 'Boston Celtics',
+            League: 'NBA',
+            Country: 'US',
+            IncomeFrom: 0,
+            IncomeTo: 0,
+            NetIncome: 0,
+            Deductions: 0,
+            FederalTax: 0,
+            MedicareTax: 0,
+            StateTax: 0,
+            CityTax: 0,
+            Credits: 0,
+            ForeignTax: 0,
+            ForeignTaxCredit: 0
+        };
+
+        sheet.addRow(Object.keys(exampleIndex));
+        sheet.addRow(Object.keys(exampleIndex).map(key => exampleIndex[key]));
+
+        try {
+            await workbook.xlsx.writeFile(tempFilePath)
+            res.download(tempFilePath)
+        } catch (err) {
+            console.log('error downloading file: ', err);
+            return res.status(422).json({errors: err})
+        }
     }
 }

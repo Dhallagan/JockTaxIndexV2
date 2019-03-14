@@ -114,4 +114,14 @@ export class TaxIndexController extends BaseController {
 
         return await this.taxIndexService.CompareIndexes(res, leagueId, team1, team2, contractAmount, contractLength, escrow, discountRate)
     }
+
+    public async downloadExampleIndex(req: Request, res: Response) {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+
+        return await this.taxIndexService.downloadExampleIndex(res);
+    }
 }

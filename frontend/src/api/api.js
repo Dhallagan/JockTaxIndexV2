@@ -85,5 +85,9 @@ export default {
 
   getTaxIndexCompare (leagueId, params) {
     return HTTP.get(`/leagues/${leagueId}/compare`, { params })
+  },
+
+  downloadExampleIndex () {
+    return axios.get('/downloadExampleIndex', { responseType: 'blob' })
   }
 }

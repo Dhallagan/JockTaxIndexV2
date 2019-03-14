@@ -125,8 +125,7 @@
         Example XLS
       </b-col>
       <b-col>
-        Elmer: This should return the headers schema with the name of the league prepolulated in the league column
-        <willow-button class="float-left"><i class="fa fa-file-download"></i>Download</willow-button>
+        <willow-button @click.native="downloadExampleIndex()"><i class="fa fa-file-download"></i>Download</willow-button>
       </b-col>
     </b-row>
     <b-row>
@@ -134,8 +133,7 @@
         Upload File
       </b-col>
       <b-col>
-        Elemer: Import just like the other button here.
-        <willow-file-input class="float-left"><i class="fa fa-file-upload"></i>Import</willow-file-input>
+        <willow-file-input :url="`/leagues/${leagueForm.id}/taxIndexes/import`" :identifier="'TaxImport'" @updateTaxImport="updateTaxImport"><i class="fa fa-file-upload"></i>Import</willow-file-input>
       </b-col>
     </b-row>
   </b-modal>
@@ -144,6 +142,8 @@
 
 <script>
 import api from '@/api/api'
+import { saveAs } from 'file-saver'
+
 export default {
   mounted () {
     this.fetch()
@@ -230,6 +230,16 @@ export default {
         this.messages = {}
         this.fetch()
       }, 3000)
+    },
+
+    downloadExampleIndex () {
+      api.downloadExampleIndex()
+        .then(res => {
+          saveAs(res.data, 'ExampleIndex.xlsx')
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }
