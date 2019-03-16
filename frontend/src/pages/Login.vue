@@ -11,7 +11,7 @@
       <label for="inputEmail" class="sr-only">Email address</label>
       <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus v-model="loginForm.email">
       <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" id="inputPassword" class="form-control mb-3" placeholder="Password" required v-model="loginForm.password">
+      <input type="password" id="inputPassword" class="form-control mb-3" placeholder="Password" required v-model="loginForm.password" v-on:keyup.enter="login()">
       <div class="checkbox mb-1">
           <label>
           <input type="checkbox" value="remember-me"> Remember me

@@ -99,7 +99,7 @@
          </div>
         </div>
       </div>
-
+      {{comparedTaxIndexes}}
       <div class="col-lg-18 col-md-18 col-sm-24">
          <h2>Tax Analysis</h2>
          <div class="panel_s">

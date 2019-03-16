@@ -48,6 +48,10 @@ export default new Router({
       component: Login
     },
     {
+      path: '/',
+      redirect: { name: 'Login' }
+    },
+    {
       path: '/recover',
       name: 'Recover',
       meta: { layout: 'authentication' },
