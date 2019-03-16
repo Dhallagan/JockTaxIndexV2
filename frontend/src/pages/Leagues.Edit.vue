@@ -5,9 +5,8 @@
     title="Edit League"
     :breadcrumbs="pageheader.breadcrumbs"
   >
-    <willow-button slot="action-right" class="mr-1" primary v-b-modal.myModal>Import With Example</willow-button>
+    <willow-button slot="action-right" class="mr-1" primary v-b-modal.myModal>Import</willow-button>
     <!-- <willow-button slot="action-right" primary>Import</willow-button> -->
-    <willow-file-input slot="action-right" :url="`/leagues/${leagueForm.id}/taxIndexes/import`" :identifier="'TaxImport'" class="list-inline-item" @updateTaxImport="updateTaxImport">Import</willow-file-input>
   </page-header>
   <willow-messages v-for="(message, i) in messages" :key="i" :type="message.type" >{{message.msg}}</willow-messages>
 
