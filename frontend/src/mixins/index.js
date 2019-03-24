@@ -20,6 +20,9 @@ export const Numbers = {
   methods: {
     Num (number) {
       return numeral(number).format('0,0')
+    },
+    Pct (number) {
+      return numeral(number).format('0.0%')
     }
   }
 }
