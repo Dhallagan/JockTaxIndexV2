@@ -99,8 +99,8 @@
          </div>
         </div>
       </div>
-     
-      <div class="col-lg-18 col-md-18 col-sm-24" v-if="state.comparision !== null">
+      {{state.comparision}}
+      <div class="col-lg-18 col-md-18 col-sm-24" v-if="state.comparison.team1 !== null">
          <h2>Tax Analysis</h2>
          <div class="panel_s">
             <div class="panel-body">
@@ -123,11 +123,11 @@
                                     <hr>
                                     <div class="col-lg-24">
                                        <div class="row">
-                                          <p> Given a gross contract of fnumber params.income, a player will make state.comparision.team1.tax.netIncome}}
-                                             if signing with the team1.team, and make state.comparision.team2.tax.netIncome}} if they were to sign with the state.comparision.team2.tax.team}}.
+                                          <p> Given a gross contract of fnumber params.income, a player will make {{state.comparision.team1.tax.netIncome}}
+                                             if signing with the team1.team, and make {{state.comparision.team2.tax.netIncome}} if they were to sign with the {{state.comparision.team2.tax.team}}.
                                              Net of taxes, playing for the comparison.betterTeam is a better deal.
-                                             For the state.comparision.team2.tax.team}} to match the contract of the
-                                             state.comparision.team1.tax.team}}, they must pay fnumber comparison.matchedContract to the signee— <strong>a comparison.premiumWord}} of ${number comparison.premium</strong>.
+                                             For the {{state.comparision.team2.tax.team}} to match the contract of the
+                                             {{state.comparision.team1.tax.team}}, they must pay fnumber comparison.matchedContract to the signee— <strong>a comparison.premiumWord}} of ${number comparison.premium</strong>.
                                           </p>
                                        </div>
                                     </div>
@@ -144,27 +144,27 @@
                                                 <tbody>
                                                    <tr>
                                                       <td class="bold">Contract Amount</td>
-                                                      <td>state.amountFieldValue}}</td>
+                                                      <td>{{state.amountFieldValue}}</td>
                                                    </tr>
                                                    <tr>
                                                       <td class="bold">Years</td>
-                                                      <td>state.lengthFieldValue}}</td>
+                                                      <td>{{state.lengthFieldValue}}</td>
                                                    </tr>
                                                    <tr>
                                                       <td class="bold">Offer From</td>
-                                                      <td>state.team1FieldValue}}</td>
+                                                      <td>{{state.team1FieldValue}}</td>
                                                    </tr>
                                                    <tr>
                                                       <td class="bold">Competing Offer</td>
-                                                      <td>state.team2FieldValue}}</td>
+                                                      <td>{{state.team2FieldValue}}</td>
                                                    </tr>
                                                    <tr>
                                                       <td class="bold">Discount Rate</td>
-                                                      <td>state.discountRateFieldValue}}</td>
+                                                      <td>{{state.discountRateFieldValue}}</td>
                                                    </tr>
                                                    <tr>
                                                       <td class="bold">Escrow</td>
-                                                      <td>state.escrowFieldValue}}</td>
+                                                      <td>{{state.escrowFieldValue}}</td>
                                                    </tr>
                                                 </tbody>
                                              </table>
@@ -188,35 +188,25 @@
 <script>
 import api from '@/api/api'
 import {Numbers} from '@/mixins'
-
 export default {
   mixins: [
     Numbers
   ],
   mounted () {
-    this.setup()
     this.fetch()
   },
 
   data () {
     return {
-      defaultState: {
-        amountFieldValue: null,
-        lengthFieldValue: null,
-        escrowFieldValue: null,
-        discountRateFieldValue: null,
-        team1FieldValue: null,
-        team2FieldValue: null
-      },
       state: {
         isLoading: false,
         isDirty: false,
-        amountFieldValue: null,
-        lengthFieldValue: null,
-        escrowFieldValue: null,
-        discountRateFieldValue: null,
-        team1FieldValue: null,
-        team2FieldValue: null,
+        amountFieldValue: 10000000,
+        lengthFieldValue: 5,
+        escrowFieldValue: '0.00',
+        discountRateFieldValue: '0.07',
+        team1FieldValue: '1',
+        team2FieldValue: '1',
         comparision: {
           team1: null,
           team2: null
@@ -228,16 +218,6 @@ export default {
   },
 
   methods: {
-    setup () {
-      this.defaultState.amountFieldValue = 10000000
-      this.defaultState.lengthFieldValue = 5
-      this.defaultState.escrowFieldValue = '0.00'
-      this.defaultState.discountRateFieldValue = '0.07'
-      this.defaultState.team1FieldValue = '1'
-      this.defaultState.team2FieldValue = '2'
-
-      Object.assign(this.state, this.defaultState);
-    },
     fetch () {
       api.getTaxIndexes(this.$route.params.league_id)
         .then(res => {

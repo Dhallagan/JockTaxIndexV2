@@ -99,21 +99,21 @@
          </div>
         </div>
       </div>
-      {{state.comparision}}
-      <div class="col-lg-18 col-md-18 col-sm-24" v-if="state.comparison.team1">
+
+      <div class="col-lg-18 col-md-18 col-sm-24" v-if="state.comparision.team1 !== null">
          <h2>Tax Analysis</h2>
          <div class="panel_s">
             <div class="panel-body">
                <div class="row">
                   <div class="col-lg-24 col-md-24">
-                     <ul class="nav nav-tabs navtab-custom">
+                     <!-- <ul class="nav nav-tabs navtab-custom">
                         <li class="active ">
                            <a href="#0" data-toggle="tab" aria-expanded="false">
                            <span class="visible-xs"><i class="fa fa-home"></i></span>
-                           <span class="hidden-xs">{{state.comparision.team1.tax.team}}</span>
+                           <span class="hidden-xs">{{state.comparision.team1}}</span>
                            </a>
                         </li>
-                     </ul>
+                     </ul> -->
                      <div class="tab-content summary">
                         <div class="tab-pane active page-break" id="0" role="tabpanel">
                            <div class="col-sm-24">
@@ -172,7 +172,265 @@
                                        </div>
                                     </div>
                                  </div>
+                                 <div class="col-lg-16 col-md-16 col-sm-16 text-analysis__item-4">
+                                    <h4 class="bold no-margin">Comparison</h4>
+                                    <hr>
+                                    <div class="row">
+
+                                       <div class="col-lg-12 col-md-12 col-sm-12 comparison__item" style="border: 4px solid #ecf0f1">
+                                          <h4 class="m-b-lg">
+                                             <span class="team1-name">{{state.comparision.team1.tax.team}}</span>
+                                          </h4>
+                                          <!--Proposed Contract -->
+                                          <!--<h3 class="no-margins">-->
+                                          <!--   <span class="team1-proposal">-->
+                                          <!--   </span>-->
+                                          <!--</h3>-->
+                                          <table class="table">
+                                             <tbody>
+                                                <tr>
+                                                   <td>
+                                                      Net
+                                                      <span class="pull-right">
+                                                      <strong>
+                                                      <span class="team1-proposal">
+                                                      {{state.comparision.team1.tax.netIncome}}
+                                                      </span></strong></span>
+                                                   </td>
+                                                </tr>
+                                                <tr>
+                                                   <td>
+                                                      Net AAV
+                                                      <span class="pull-right">
+                                                      <strong>
+                                                      <span class="team1-aav">
+                                                      {{state.comparision.team1.tax.aav}}
+                                                      </span></strong></span>
+                                                   </td>
+                                                </tr>
+                                                <tr>
+                                                   <td>
+                                                      Tax Rate
+                                                      <span class="pull-right">
+                                                      <strong>
+                                                      <span class="team1-avgtaxrate">
+                                                      {{state.comparision.team1.tax.taxRate}}
+                                                      </span></strong></span>
+                                                   </td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                          <h4> <i class="fa fa-check fa-3" aria-hidden="true"></i>  Better Net Value</h4>
+
+                                       </div>
+                                       <div class="col-lg-12 col-md-12 col-sm-12 comparison__item" style="border: 4px solid #ecf0f1">
+                                          <h4 class="m-b-lg">
+                                             <span class="team2-name">
+                                             {{state.comparision.team2.tax.team}}
+                                             </span>
+                                          </h4>
+                                          <!--Matched Contract -->
+                                          <!--<h3 class="no-margins">-->
+                                          <!--   <span class="team2-matchcontract">-->
+                                          <!--   $5,362,757-->
+                                          <!--   </span>-->
+                                          <!--</h3>-->
+                                          <table class="table">
+                                             <tbody>
+                                                <tr>
+                                                   <td>
+                                                      Net
+                                                      <span class="pull-right">
+                                                      <strong>
+                                                      <span class="team1-proposal">
+                                                      {{state.comparision.team2.tax.netIncome}}
+                                                      </span></strong></span>
+                                                   </td>
+                                                </tr>
+                                                <tr>
+                                                   <td>
+                                                      Net AAV
+                                                      <span class="pull-right">
+                                                      <strong>
+                                                      <span class="team1-aav">
+                                                         {{state.comparision.team2.tax.aav}}
+                                                      </span></strong></span>
+                                                   </td>
+                                                </tr>
+                                                <tr>
+                                                   <td>
+                                                      Tax Rate
+                                                      <span class="pull-right">
+                                                      <strong>
+                                                      <span class="team1-avgtaxrate">
+                                                         {{state.comparision.team2.tax.taxRate}}
+                                                      </span></strong></span>
+                                                   </td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                          <h4> <i class="fa fa-check fa-3" aria-hidden="true"></i>  Better Net Value</h4>
+                                       </div>
+                                    </div>
+                                 </div>
                               </div>
+                              
+                              <div class="row">
+                                 <div class="col-lg-24">
+                                    <h4 class="bold no-margin">Income Statement</h4>
+                                    <hr>
+                                    <table class="table">
+                                       <thead>
+                                          <tr>
+                                             <th scope="col"></th>
+                                             <th scope="col">{{state.comparision.team1.tax.team}}</th>
+                                             <th scope="col">{{state.comparision.team1.tax.team}}</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          <tr>
+                                             <td></td>
+                                             <td>{{state.comparision.team1.tax.team}}</td>
+                                             <td>{{state.comparision.team2.tax.team}}</td>
+                                          </tr>
+                                          <tr>
+                                             <td>Income</td>
+                                             <td>{{state.comparision.team1.tax.income}}</td>
+                                             <td>{{state.comparision.team2.tax.income}}</td>
+                                          </tr>
+                                          <tr>
+                                             <td>Escrow</td>
+                                             <td>${{state.amountFieldValue}} - {{state.comparision.team1.tax.income}}</td>
+                                             <td>${{state.amountFieldValue}} - {{state.comparision.team2.tax.income}}</td>
+                                          </tr>
+                                          <tr>
+                                             <td>Taxable Income</td>
+                                             <td>{{state.comparision.team1.tax.taxableincome}}</td>
+                                             <td>{{state.comparision.team2.tax.taxableincome}}</td>
+                                          </tr>
+                                          <tr>
+                                             <td>Federal Tax</td>
+                                             <td>{{state.comparision.team1.tax.federalTax}}</td>
+                                             <td>{{state.comparision.team2.tax.federalTax}}</td>
+                                          </tr>
+                                          <tr>
+                                             <td>State Tax</td>
+                                             <td>{{state.comparision.team1.tax.stateTax}}</td>
+                                             <td>{{state.comparision.team2.tax.stateTax}}</td>
+                                          </tr>
+                                          <tr>
+                                             <td>City Tax</td>
+                                             <td>{{state.comparision.team1.tax.cityTax}}</td>
+                                             <td>{{state.comparision.team2.tax.cityTax}}</td>
+                                          </tr>
+                                          <tr>
+                                             <td>FICA</td>
+                                             <td>{{state.comparision.team1.tax.fica}}</td>
+                                             <td>{{state.comparision.team2.tax.fica}}</td>
+                                          </tr>
+                                          <tr>
+                                             <td>Net Income</td>
+                                             <td>{{state.comparision.team1.tax.netIncome}}</td>
+                                             <td>{{state.comparision.team2.tax.netIncome}}</td>
+                                          </tr>
+                                       </tbody>
+                                       </table>
+                                    <!-- <table class="table table-responsive">
+                                       <tbody>
+                                          <tr>
+                                             <td colspan="2">
+                                             </td>
+                                             <th scope="col" style="text-align:right;">
+                                                <h4>{{state.comparision.team1.tax.team}}</h4>
+                                             </th>
+                                             <th scope="col" style="text-align:right;">
+                                                <h4>{{state.comparision.team2.tax.team}}</h4>
+                                             </th>
+                                          </tr>
+                                          <tr>
+                                             <td colspan="2">
+                                                Gross Income
+                                             </td>
+                                             <td align="right">
+                                                {{state.comparision.team1.tax.income}}
+                                             </td>
+                                             <td align="right">
+                                                {{state.comparision.team2.tax.income}}
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                <spacer height="1" type="block" width="30"></spacer>
+                                             </td>
+                                             <td>- Escrow </td>
+                                             <td align="right">${{state.amountFieldValue}} - {{state.comparision.team1.tax.income}}</td>
+                                             <td align="right">${{state.amountFieldValue}} - {{state.comparision.team2.tax.income}}</td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                <spacer height="1" type="block" width="30"></spacer>
+                                             </td>
+                                             <td>- Deductions </td>
+                                             <td align="right">{{state.comparision.team1.tax.deductions}}</td>
+                                             <td align="right">{{state.comparision.team2.tax.deductions}}</td>
+                                          </tr>
+                                          <tr>
+                                             <td colspan="2">
+                                                Taxable Income
+                                             </td>
+                                             <td align="right">{{state.comparision.team1.tax.taxableincome}}</td>
+                                             <td align="right">{{state.comparision.team2.tax.taxableincome}}</td>
+                                          </tr>
+                                          <tr>
+                                             <td colspan="5" style="height:0;padding:0; ">
+                                                <span style="display:block; width:5px; height:10px;">
+                                                </span>
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                <spacer height="1" type="block" width="30"></spacer>
+                                             </td>
+                                             <td>- Federal </td>
+                                             <td align="right">${{state.comparision.team1.tax.federalTax}}</td>
+                                             <td align="right">${{state.comparision.team2.tax.federalTax}}</td>
+                                          </tr>
+                                          <tr>
+                                             <td class="yfnc_tabledata1" width="30">
+                                                <spacer height="1" type="block" width="30"></spacer>
+                                             </td>
+                                             <td>- State</td>
+                                             <td align="right">${{state.comparision.team1.tax.stateTax}}</td>
+                                             <td align="right">${{state.comparision.team2.tax.stateTax}}</td>
+                                          </tr>
+                                          <tr>
+                                             <td class="yfnc_tabledata1" width="30">
+                                                <spacer height="1" type="block" width="30"></spacer>
+                                             </td>
+                                             <td>- City</td>
+                                             <td align="right">${{state.comparision.team2.tax.cityTax}}</td>
+                                             <td align="right">${{state.comparision.team2.tax.cityTax}}</td>
+                                          </tr>
+                                          <tr>
+                                             <td class="yfnc_tabledata1" width="30">
+                                                <spacer height="1" type="block" width="30"></spacer>
+                                             </td>
+                                             <td>- FICA</td>
+                                             <td align="right">${{state.comparision.team1.tax.fica}}</td>
+                                             <td align="right">${{state.comparision.team2.tax.fica}}</td>
+                                          </tr>
+                                          <tr>
+                                             <td colspan="2">
+                                                Net Income
+                                             </td>
+                                             <td align="right">${{state.comparision.team1.tax.netIncome}}</td>
+                                             <td align="right">${{state.comparision.team2.tax.netIncome}}</td>
+                                          </tr>
+                                       </tbody>
+                                    </table> -->
+                                 </div>
+                              </div>
+
                            </div>
                         </div>
                      </div>
@@ -188,25 +446,35 @@
 <script>
 import api from '@/api/api'
 import {Numbers} from '@/mixins'
+
 export default {
   mixins: [
     Numbers
   ],
   mounted () {
     this.fetch()
+    this.setup()
   },
 
   data () {
     return {
+      defaultState: {
+        amountFieldValue: null,
+        lengthFieldValue: null,
+        escrowFieldValue: null,
+        discountRateFieldValue: null,
+        team1FieldValue: null,
+        team2FieldValue: null
+      },
       state: {
         isLoading: false,
         isDirty: false,
-        amountFieldValue: 10000000,
-        lengthFieldValue: 5,
-        escrowFieldValue: '0.00',
-        discountRateFieldValue: '0.07',
-        team1FieldValue: '1',
-        team2FieldValue: '1',
+        amountFieldValue: null,
+        lengthFieldValue: null,
+        escrowFieldValue: null,
+        discountRateFieldValue: null,
+        team1FieldValue: null,
+        team2FieldValue: null,
         comparision: {
           team1: null,
           team2: null
@@ -218,14 +486,25 @@ export default {
   },
 
   methods: {
+    setup () {
+      this.defaultState.amountFieldValue = 10000000
+      this.defaultState.lengthFieldValue = 5
+      this.defaultState.escrowFieldValue = '0.00'
+      this.defaultState.discountRateFieldValue = '0.07'
+      this.defaultState.team1FieldValue = '1'
+      this.defaultState.team2FieldValue = '2'
+
+      Object.assign(this.state, this.defaultState)
+    },
     fetch () {
       api.getTaxIndexes(this.$route.params.league_id)
         .then(res => {
           this.taxIndexes = res.data
+          console.log(this.taxIndexes)
         })
     },
     handleCompareSubmit () {
-      alert(this.$route.params.league_id + '|' + this.state.team1FieldValue + '|' + this.state.team2FieldValue)
+      // alert(this.$route.params.league_id + '|' + this.state.team1FieldValue + '|' + this.state.team2FieldValue)
 
       var params = {
         contractAmount: this.state.amountFieldValue,
