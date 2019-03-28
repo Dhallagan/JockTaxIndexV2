@@ -107,13 +107,13 @@
           :href="`/app/league/${league.Id}/compare`"
         ></willow-menu-item>
 
-        <willow-menu-item
+        <willow-menu-item  v-if="hasRole('Admin')"
           icon='list'
           title='Leagues'
           href='/admin/leagues'
         ></willow-menu-item>
 
-        <willow-menu-item
+        <willow-menu-item  v-if="hasRole('Admin')"
           icon='users'
           title='Users'
           href='/admin/users'
@@ -121,8 +121,8 @@
 
         <willow-menu-item
           icon='cog'
-          title='Account Settings'
-          href='/admin/settings/accounts'
+          title='Settings'
+          href='/admin/settings'
         ></willow-menu-item>
 
       </template>
