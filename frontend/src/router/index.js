@@ -16,6 +16,7 @@ import Leagues from '../pages/Leagues'
 import LeaguesEdit from '../pages/Leagues.Edit'
 import LeaguesNew from '../pages/Leagues.New'
 import TaxCompare from '../pages/TaxCompare'
+import TaxCompareV2 from '../pages/TaxCompareV2'
 
 import fourohfour from '../pages/404'
 Vue.use(Router)
@@ -146,6 +147,15 @@ export default new Router({
         requiresAuth: true
       },
       component: TaxCompare
+    },
+    {
+      path: '/app/league/:league_id/compareV2',
+      name: 'TaxCompareV2',
+      meta: {
+        layout: 'application',
+        requiresAuth: true
+      },
+      component: TaxCompareV2
     }
   ]
 })

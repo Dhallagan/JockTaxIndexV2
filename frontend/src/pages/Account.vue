@@ -32,7 +32,7 @@
     </willow-annotated-section>
 
     <willow-annotated-section
-      title="Accounts And Permissions"
+      title="Prolile"
     >
        <b-card class="mb-2">
        <h6>Profile</h6>
