@@ -3,8 +3,7 @@ import api from '@/api/api'
 const User = {
   state: {
     token: localStorage.getItem('token') || '',
-    user: null,
-    claims: null
+    user: null
   },
   mutations: {
     setToken: function (state, token) {
@@ -17,9 +16,6 @@ const User = {
     setAvatar: function (state, avatar) {
       var user = state.user
       user.Avatar = avatar
-    },
-    setClaims: function (state, claims) {
-      state.claims = claims
     }
   },
   getters: {
@@ -42,9 +38,6 @@ const User = {
       } else {
         return ''
       }
-    },
-    getClaims: function (state) {
-      return state.claims
     }
   },
   actions: {
