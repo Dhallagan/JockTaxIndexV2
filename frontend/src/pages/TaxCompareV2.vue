@@ -10,40 +10,8 @@
          <div class="form-group">
             <input type="text" name="contract" id="contract" value="10000000" class="selectpicker" v-model="state.amountFieldValue">
          </div>
-         <!-- <label for="years">Years</label>
-         <div class="form-group">
 
-            <select name="years" id="years" class="selectpicker" value="5" v-model="state.lengthFieldValue">
-               <option value="1">1</option>
-               <option value="2">2</option>
-               <option value="3">3</option>
-               <option value="4">4</option>
-               <option value="5">5</option>
-               <option value="6">6</option>
-               <option value="7">7</option>
-               <option value="8">8</option>
-               <option value="9">9</option>
-               <option value="10">10</option>
-               <option value="11">11</option>
-               <option value="12">12</option>
-               </select>
-         </div> -->
-
-         <!-- ELMER POPULATE TEAMS HERE BASED OFF OF TEAMS IN THE INDEX -->
-         <!-- <label for="team1">Offer From</label>
-         <div class="form-group">
-            <select name="team1" id="team1" class="selectpicker" v-model="state.team1FieldValue">
-               <option v-for="(taxIndex, key) in taxIndexes" :key="key" :value="taxIndex.Id">{{ taxIndex.Team }}</option>
-            </select>
-         </div> -->
-         <!-- ELMER POPULATE TEAMS HERE BASED OFF OF TEAMS IN THE INDEX -->
-         <!-- <label for="team2">Competing Offer(s) For</label>
-         <div class="form-group">
-            <select name="team2" id="team2" class="selectpicker" v-model="state.team2FieldValue">
-               <option v-for="(taxIndex, key) in taxIndexes" :key="key" :value="taxIndex.Id">{{ taxIndex.Team }}</option>
-            </select>
-         </div> -->
-         <!-- <label for="escrow">Escrow</label>
+         <label for="escrow">Escrow</label>
          <div class="form-group">
             <select name="escrow" id="escrow" class="selectpicker" v-model="state.escrowFieldValue">
                <option value="0.00">0%</option>
@@ -68,7 +36,7 @@
                <option value="0.19">19%</option>
                <option value="0.20">20%</option>
             </select>
-         </div> -->
+         </div>
 
          <!-- DON"T NEED TO EDIT -->
          <!-- <h4>Present Value</h4>
@@ -91,19 +59,18 @@
                </select>
          </div> -->
          <div class="clearfix mtop15"></div>
-         <button class="button btn btn-primary pull-right mtop15" id="submit-button" @click="handleCompareSubmit()">Submit</button>
+         <!-- <button class="button btn btn-primary pull-right mtop15" id="submit-button" @click="handleCompareSubmit()">Submit</button> -->
       </div>
    </div>
 
    <div class="col-lg-18 col-md-18 col-sm-24">
       <h2>Earnings</h2>
-      <!-- {{state.team1}} -->
       <div class="row">
          <div class="col-lg-24 col-md-24 card">
             <div class="row">
                <div class="col-lg-24">
                      <b-table
-                        :fields="['Team', 'Tax Rate', 'Tax Paid', 'Net Income']"
+                        :fields="fields"
                         :items="taxIndexes"
                         hover
                      >
@@ -116,11 +83,35 @@
                         </template>
 
                         <template slot="Tax Paid" slot-scope="data">
-                           {{(Num((1 - data.item.NetIncome) * state.amountFieldValue))}}
+                           {{(Num((1 - data.item.NetIncome) * adjContractAmount))}}
                         </template>
 
                         <template slot="Net Income" slot-scope="data">
-                           {{(Num((data.item.NetIncome) * state.amountFieldValue))}}
+                           {{(Num((data.item.NetIncome) * adjContractAmount))}}
+                        </template>
+
+                        <template slot="Federal Tax" slot-scope="data">
+                           {{(Num((data.item.FederalTax) * adjContractAmount - socialSecurity(data.item.Country)))}}
+                        </template>
+
+                        <template slot="State Tax" slot-scope="data">
+                           {{(Num((data.item.StateTax) * adjContractAmount))}}
+                        </template>
+
+                        <template slot="City Tax" slot-scope="data">
+                           {{(Num((data.item.CityTax) * adjContractAmount))}}
+                        </template>
+
+                        <template slot="Fica Tax" slot-scope="data">
+                           {{(Num((data.item.FicaTax) * adjContractAmount))}}
+                        </template>
+
+                        <template slot="Deductions" slot-scope="data">
+                           {{(Num((data.item.Deductions) * adjContractAmount))}}
+                        </template>
+
+                        <template slot="Taxable Income" slot-scope="data">
+                           {{(Num(taxableIncome(data.item.Deductions)))}}
                         </template>
 
                      </b-table>
@@ -150,15 +141,17 @@ export default {
       state: {
         isLoading: false,
         isDirty: false,
-        amountFieldValue: 10000000
-        // lengthFieldValue: null,
-        // escrowFieldValue: null,
-        // discountRateFieldValue: null,
-        // team1FieldValue: null,
-        // team2FieldValue: null,
-        // team1: null
+        amountFieldValue: 10000000,
+        escrowFieldValue: '0.00'
+        // discountRateFieldValue: '0.07'
       },
+      fields: ['Team', 'Tax Rate', 'Tax Paid', 'Net Income', 'Federal Tax', 'State Tax', 'City Tax', 'Fica Tax', 'Deductions', 'Taxable Income'],
       taxIndexes: {}
+    }
+  },
+  computed: {
+    adjContractAmount () {
+      return this.state.amountFieldValue * (1 - this.state.escrowFieldValue)
     }
   },
   methods: {
@@ -169,22 +162,17 @@ export default {
           console.log(this.taxIndexes)
         })
     },
-    handleCompareSubmit () {
-      this.fetch()
-      // var params = {
-      //   contractAmount: this.state.amountFieldValue,
-      //   contractLength: this.state.lengthFieldValue,
-      //   escrow: this.state.escrowFieldValue,
-      //   discountRate: this.state.discountRateFieldValue,
-      //   team1: this.state.team1FieldValue,
-      //   team2: this.state.team2FieldValue
-      // }
+    socialSecurity (country) {
+      var socialSecuritye = 7347
 
-    //   api.getTaxIndexCompare(this.$route.params.league_id, params)
-    //     .then(res => {
-    //       console.log(res.data)
-    //       this.state.team1 = res.data.comparision.team1
-    //     })
+      if (country === 'CA') {
+        socialSecuritye = 0
+      }
+
+      return socialSecuritye
+    },
+    taxableIncome (deductions) {
+      return this.adjContractAmount - this.adjContractAmount * deductions
     }
   }
 }
