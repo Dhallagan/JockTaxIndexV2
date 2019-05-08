@@ -45,6 +45,10 @@ export class UserRepository extends Repository<User> {
         return await getRepository(User).update(id, user);
     }
 
+    public async deleteUser(id: number){
+        return await getConnection().manager.delete(User, id);
+    }
+
     public async getOne(params: Object){
         return await getConnection().manager.findOne(User, params);
     }

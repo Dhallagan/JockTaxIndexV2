@@ -43,6 +43,10 @@ export default {
     return axios.get(`/users/${id}`)
   },
 
+  deleteUserById (id) {
+    return axios.delete(`/users/${id}`)
+  },
+
   getUserByToken () {
     return HTTP.get('/users/token')
   },

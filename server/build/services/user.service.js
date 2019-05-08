@@ -318,6 +318,25 @@ var UserService = /** @class */ (function () {
             });
         });
     };
+    UserService.prototype.deleteUser = function (res, id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var user;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.userRepository.getUserById(id)];
+                    case 1:
+                        user = _a.sent();
+                        if (!user) {
+                            return [2 /*return*/, res.status(422).json({ 'errors': [{ 'msg': 'User Id is invalid.' }] })];
+                        }
+                        return [4 /*yield*/, this.userRepository.deleteUser(id)];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/, res.status(200).json({ 'msg': 'Removed successfully' })];
+                }
+            });
+        });
+    };
     UserService.prototype.updateAvatar = function (res, id, avatar) {
         return __awaiter(this, void 0, void 0, function () {
             var user, updatedUser;

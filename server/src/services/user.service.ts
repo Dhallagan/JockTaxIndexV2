@@ -201,6 +201,18 @@ export class UserService {
         return res.status(200).json({'msg': 'Updated successfully.'});
     }
 
+    public async deleteUser(res: Response, id: number) {
+        var user = await this.userRepository.getUserById(id)
+
+        if(!user) {
+            return  res.status(422).json({'errors': [{'msg': 'User Id is invalid.'}]})
+        }
+
+        await this.userRepository.deleteUser(id);
+
+        return res.status(200).json({'msg': 'Removed successfully'});
+    }
+
     public async updateAvatar(res: Response, id: number, avatar: string) {
         var user = await this.userRepository.getUserById(id)
         if(!user) {

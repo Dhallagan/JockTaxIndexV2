@@ -1,11 +1,8 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    }
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -43,6 +40,7 @@ var UserRoutes = /** @class */ (function (_super) {
         this.router.get('/users/token', authentication_1.Authentication.isAuthenticated, function (req, res, next) { return _this.userController.getUserByToken(req, res).catch(next); });
         this.router.get('/users/:id', function (req, res, next) { return _this.userController.getUser(req, res).catch(next); });
         this.router.post('/users/:id', function (req, res, next) { return _this.userController.updateUser(req, res).catch(next); });
+        this.router.delete('/users/:id', function (req, res, next) { return _this.userController.deleteUser(req, res).catch(next); });
         this.router.post('/users/:id/avatar', function (req, res, next) { return _this.userController.updateAvatar(req, res).catch(next); });
         this.router.post('/invite', authentication_1.Authentication.isAuthenticated, function (req, res, next) { return _this.userController.invite(req, res).catch(next); });
     };

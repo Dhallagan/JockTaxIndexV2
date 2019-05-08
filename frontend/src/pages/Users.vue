@@ -70,6 +70,7 @@
 
       <template slot="Action" slot-scope="data">
         <willow-button primary :url="'/admin/users/' + data.item.Id" >Edit</willow-button>
+        <willow-button destructive @click.native="deleteUser(data.item.Id)">Delete</willow-button>
       </template>
 
     </b-table>
@@ -101,6 +102,17 @@ export default {
         .then(res => {
           console.log(res.data)
           this.users = res.data
+        })
+    },
+
+    deleteUser (userId) {
+      api.deleteUserById(userId)
+        .then(res => {
+          console.log(res.data)
+          this.$router.go()
+        })
+        .catch(error => {
+          console.log(error.response.data.errors)
         })
     }
   }

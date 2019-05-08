@@ -123,6 +123,16 @@ export class UserController extends BaseController {
         return await this.userService.updateUser(res, req.params.id, viewModel.firstName, viewModel.lastName, viewModel.phoneNumber, viewModel.role, viewModel.active)
     }
 
+    public async deleteUser(req: Request, res: Response) {
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+
+        return await this.userService.deleteUser(res, req.params.id);
+    }
+
     public async updateAvatar(req: Request, res: Response) {
         const viewModel = req.body;
         const errors = validationResult(req);
