@@ -13,6 +13,8 @@
 
   </page-header>
 
+  <willow-messages v-for="(message, i) in messages" :key="i" :type="message.type" >{{message.msg}}</willow-messages>
+
   <b-card class="w-100">
     <!-- <willow-button outline v-b-toggle.collapse1>Filters +</willow-button> -->
 
@@ -71,6 +73,7 @@
       <template slot="Action" slot-scope="data">
         <willow-button primary :url="'/admin/users/' + data.item.Id" >Edit</willow-button>
         <willow-button destructive @click.native="deleteUser(data.item.Id)">Delete</willow-button>
+        <willow-button v-if="data.item.EmailVerified === false" @click.native="resendInvite(data.item.Id)">Resend Invite</willow-button>
       </template>
 
     </b-table>
@@ -92,7 +95,8 @@ export default {
   data () {
     return {
       fields: ['Email', 'Verified', 'Created', 'Role', 'Active', 'Action'],
-      users: {}
+      users: {},
+      messages: null
     }
   },
 
@@ -100,7 +104,6 @@ export default {
     fetch () {
       api.getUsers()
         .then(res => {
-          console.log(res.data)
           this.users = res.data
         })
     },
@@ -108,11 +111,34 @@ export default {
     deleteUser (userId) {
       api.deleteUserById(userId)
         .then(res => {
-          console.log(res.data)
           this.$router.go()
         })
         .catch(error => {
           console.log(error.response.data.errors)
+        })
+    },
+
+    resendInvite (userId) {
+      const user = this.users.find(user => user.Id === userId)
+      const { FirstName, LastName, Role, Email } = user
+      api.sendInvite({
+        firstName: FirstName,
+        lastName: LastName,
+        role: Role,
+        email: Email
+      })
+        .then((res) => {
+          var messages = [res.data]
+          messages.forEach(message => {
+            message.type = 'success'
+          })
+          this.messages = messages
+          setTimeout(() => {
+            this.messages = {}
+          }, 3000)
+        })
+        .catch(err => {
+          console.log(err)
         })
     }
   }

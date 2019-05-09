@@ -369,24 +369,34 @@ var UserService = /** @class */ (function () {
                         return [4 /*yield*/, this.userRepository.getUserByEmail(email)];
                     case 1:
                         userExists = _a.sent();
-                        if (userExists) {
+                        if (userExists && userExists.EmailVerified) {
                             return [2 /*return*/, res.status(422).json({ 'errors': [{ 'msg': 'Account with that email address already exists.' }] })];
                         }
                         return [4 /*yield*/, this.userRepository.getUserById(invitedBy)];
                     case 2:
                         userInviteSent = _a.sent();
-                        if (!userInviteSent) return [3 /*break*/, 5];
+                        if (!userInviteSent) {
+                            return [2 /*return*/, res.status(422).json({ erros: [{ msg: 'Sender is invalid.' }] })];
+                        }
                         password = generate_password_1.generate({ length: 10, numbers: true });
                         return [4 /*yield*/, bcrypt_1.default.hash(password, 10)];
                     case 3:
                         passwordHash = _a.sent();
+                        if (!!userExists) return [3 /*break*/, 5];
                         return [4 /*yield*/, this.userRepository.createUser(res, firstname, lastname, email, passwordHash, uuid_1.v4(), role)];
                     case 4:
                         user = _a.sent();
-                        console.log(user);
+                        return [3 /*break*/, 7];
+                    case 5:
+                        user = userExists;
+                        user.EmailVerifyToken = uuid_1.v4();
+                        return [4 /*yield*/, this.userRepository.saveUser(user)];
+                    case 6:
+                        _a.sent();
+                        _a.label = 7;
+                    case 7:
                         emailer_1.Emailer.inviteEmail(email, user.FirstName + " " + user.LastName, userInviteSent.FirstName + " " + userInviteSent.LastName, user.EmailVerifyToken, password);
                         return [2 /*return*/, res.status(200).json({ 'msg': 'Invite sent!' })];
-                    case 5: return [2 /*return*/];
                 }
             });
         });

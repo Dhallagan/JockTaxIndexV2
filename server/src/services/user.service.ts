@@ -231,21 +231,31 @@ export class UserService {
 
         const userExists = await this.userRepository.getUserByEmail(email)
 
-        if(userExists){
-            return  res.status(422).json({'errors': [{'msg': 'Account with that email address already exists.'}]})
+        if (userExists && userExists.EmailVerified) {
+            return  res.status(422).json({'errors': [{'msg': 'Account with that email address already exists.'}]});
         }
 
         const userInviteSent = await this.userRepository.getUserById(invitedBy);
-        if (userInviteSent) {
-            const password = generate({length: 10, numbers: true});
-            const passwordHash = await bcrypt.hash(password, 10);
-            const user = await this.userRepository.createUser(res, firstname, lastname, email, passwordHash, UUId(), role);
-            console.log(user)
 
-            Emailer.inviteEmail(email, user.FirstName + " " + user.LastName, userInviteSent.FirstName + " " + userInviteSent.LastName, user.EmailVerifyToken, password);
-
-            return res.status(200).json({'msg': 'Invite sent!'});
+        if (!userInviteSent) {
+            return res.status(422).json({erros: [{msg: 'Sender is invalid.'}]});
         }
+
+        const password = generate({length: 10, numbers: true});
+        const passwordHash = await bcrypt.hash(password, 10);
+        let user;
+
+        if (!userExists) {
+            user = await this.userRepository.createUser(res, firstname, lastname, email, passwordHash, UUId(), role);
+        } else {
+            user = userExists;
+            user.EmailVerifyToken = UUId();
+            await this.userRepository.saveUser(user);
+        }
+
+        Emailer.inviteEmail(email, user.FirstName + " " + user.LastName, userInviteSent.FirstName + " " + userInviteSent.LastName, user.EmailVerifyToken, password);
+
+        return res.status(200).json({'msg': 'Invite sent!'});
 
     } 
 }
