@@ -8,8 +8,8 @@ import { User } from "../entity/User";
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
 
-    public async createUser(res: Response, firstname: string, lastname: string, email: string, passwordHash: string, emailVerifyToken: string, role:string = 'User'){
-        return await getConnection().manager.save(User, {FirstName: firstname, LastName: lastname, Email: email, PasswordHash: passwordHash, EmailVerifyToken: emailVerifyToken, Role: role});
+    public async createUser(res: Response, firstname: string, lastname: string, email: string, passwordHash: string, emailVerifyToken: string, role:string = 'User', active: boolean = false){
+        return await getConnection().manager.save(User, {FirstName: firstname, LastName: lastname, Email: email, PasswordHash: passwordHash, EmailVerifyToken: emailVerifyToken, Role: role, Active: active});
     }
     
 

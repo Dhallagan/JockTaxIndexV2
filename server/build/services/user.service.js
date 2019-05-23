@@ -359,7 +359,7 @@ var UserService = /** @class */ (function () {
     };
     UserService.prototype.createInviteUser = function (res, firstname, lastname, email, role, invitedBy) {
         return __awaiter(this, void 0, void 0, function () {
-            var userExists, userInviteSent, password, passwordHash, user;
+            var userExists, userInviteSent, password, passwordHash, user, active;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -383,7 +383,13 @@ var UserService = /** @class */ (function () {
                     case 3:
                         passwordHash = _a.sent();
                         if (!!userExists) return [3 /*break*/, 5];
-                        return [4 /*yield*/, this.userRepository.createUser(res, firstname, lastname, email, passwordHash, uuid_1.v4(), role)];
+                        if (role === 'Admin') {
+                            active = true;
+                        }
+                        else {
+                            active = false;
+                        }
+                        return [4 /*yield*/, this.userRepository.createUser(res, firstname, lastname, email, passwordHash, uuid_1.v4(), role, active)];
                     case 4:
                         user = _a.sent();
                         return [3 /*break*/, 7];

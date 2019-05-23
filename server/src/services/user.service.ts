@@ -244,9 +244,16 @@ export class UserService {
         const password = generate({length: 10, numbers: true});
         const passwordHash = await bcrypt.hash(password, 10);
         let user;
+        let active;
 
         if (!userExists) {
-            user = await this.userRepository.createUser(res, firstname, lastname, email, passwordHash, UUId(), role);
+            if (role === 'Admin') {
+                active = true;
+            } else {
+                active = false;
+            }
+
+            user = await this.userRepository.createUser(res, firstname, lastname, email, passwordHash, UUId(), role, active);
         } else {
             user = userExists;
             user.EmailVerifyToken = UUId();
