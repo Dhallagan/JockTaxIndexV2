@@ -23,7 +23,6 @@ export class LeagueService {
 
     public async getLeagues(res: Response) {
         const leagues = await this.leagueRepository.getLeagues();
-        console.log(leagues);
 
         return res.status(200).json(leagues);
     }
