@@ -174,7 +174,7 @@
                                     <span class="pull-right">
                                     <strong>
                                     <span class="team1-aav">
-                                    {{Num(state.comparision.team1.tax.aav)}}
+                                    {{Num(state.comparision.team1.tax.netaav)}}
                                     </span></strong></span>
                                  </td>
                               </tr>
@@ -217,7 +217,7 @@
                                     <span class="pull-right">
                                     <strong>
                                     <span>
-                                       {{Num(state.comparision.team2.tax.aav)}}
+                                       {{Num(state.comparision.team2.tax.netaav)}}
                                     </span></strong></span>
                                  </td>
                               </tr>
