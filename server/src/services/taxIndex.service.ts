@@ -229,12 +229,14 @@ export class TaxIndexService {
 
         var adjContractAmount = contractAmount * (1 - escrow)
         var socialSecurity = 7347
+        var deductions = adjContractAmount * teamIndex.Deductions
 
         if(teamIndex.Country == "CA") {
             socialSecurity = 0
+        } else if (teamIndex.Country == "US") {
+            deductions = 12000
         }
 
-        var deductions = adjContractAmount * teamIndex.Deductions
         var federalTax = adjContractAmount * teamIndex.FederalTax - socialSecurity
         var taxableincome = adjContractAmount - deductions
         var stateTax = adjContractAmount * teamIndex.StateTax
