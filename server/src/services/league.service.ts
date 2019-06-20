@@ -37,19 +37,13 @@ export class LeagueService {
         return res.status(200).json(league);
     }
 
-    public async updateLeague(res: Response, id: number, name: string, active: boolean) {
-        const leagueExists = await this.leagueRepository.getLeagueById(id)
-        const league = await this.leagueRepository.getLeagueByName(name);
+    public async updateLeague(res: Response, id: number, active: boolean) {
+        const leagueExists = await this.leagueRepository.getLeagueById(id);
 
         if (!leagueExists) {
             return res.status(422).json({'errors': [{'msg': 'League does not exist.'}]})
         }
 
-        if(league && league.Id != leagueExists.Id) {
-            return  res.status(422).json({'errors': [{'msg': 'The league name already exists.'}]})
-        }
-
-        leagueExists.Name = name;
         leagueExists.Active = active;
         await this.leagueRepository.updateLeague(id, leagueExists);
 

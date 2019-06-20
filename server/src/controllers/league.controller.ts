@@ -51,7 +51,7 @@ export class LeagueController extends BaseController {
             return res.status(422).json({ errors: errors.array() });
         }
 
-        return await this.leagueService.updateLeague(res, req.params.leagueId, viewModel.name, viewModel.active);
+        return await this.leagueService.updateLeague(res, req.params.leagueId, viewModel.active);
     }
 
     public async deleteLeague(req: Request, res: Response) {

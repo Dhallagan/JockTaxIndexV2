@@ -24,9 +24,9 @@
                 <label for="inputLive">League Name</label>
                 <b-form-input
                       :value="leagueForm.name"
-                      v-model="leagueForm.name"
+                      :disabled=true
                       type="text"
-                      placeholder="First">
+                      placeholder="League Name">
                 </b-form-input>
               </b-col>
             </b-row>
@@ -184,7 +184,6 @@ export default {
 
     updateLeague () {
       var params = {
-        name: this.leagueForm.name,
         active: this.leagueForm.active
       }
       api.updateLeague(this.leagueForm.id, params)
