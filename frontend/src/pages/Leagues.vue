@@ -7,9 +7,9 @@
       <willow-button plain>Print Application</willow-button>
     </template> -->
 
-    <template slot="action-right">
+    <!-- <template slot="action-right">
       <willow-button primary url="/admin/leagues/new">Add League</willow-button>
-    </template>
+    </template> -->
 
   </page-header>
 

@@ -15,7 +15,7 @@ export class LeagueRoutes extends BaseRoute {
 
     initRoutes() {
         this.router.get('/leagues', Authentication.isAuthenticated, (req, res, next) => this.leagueController.getLeagues(req, res).catch(next));
-        this.router.post('/leagues', Authentication.isAuthenticated, (req, res, next) => this.leagueController.createLeague(req, res).catch(next));
+        // this.router.post('/leagues', Authentication.isAuthenticated, (req, res, next) => this.leagueController.createLeague(req, res).catch(next));
         this.router.get('/leagues/:leagueId', Authentication.isAuthenticated, (req, res, next) => this.leagueController.getLeague(req, res).catch(next));
         this.router.put('/leagues/:leagueId', Authentication.isAuthenticated, (req, res, next) => this.leagueController.updateLeague(req, res).catch(next));
         this.router.delete('/leagues/:leagueId', Authentication.isAuthenticated, (req, res, next) => this.leagueController.deleteLeague(req, res).catch(next));
