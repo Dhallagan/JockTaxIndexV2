@@ -97,12 +97,6 @@ export class TaxIndexService {
     }
 
     public async importTaxIndexes(res: Response, leagueId: number, filePath: string) {
-        const leagueExists = await this.leagueRepository.getLeagueById(leagueId);
-        const leagues = await this.leagueRepository.getLeagues();
-
-        if (!leagueExists) {
-            return res.status(422).json({'errors': [{'msg': 'League does not exist.'}]});
-        }
 
         const schema = {
             'Team': {
@@ -111,15 +105,7 @@ export class TaxIndexService {
             },
             'League': {
                 prop: 'League',
-                parse(value) {
-                    const league = leagues.find(leg => leg.Name === value);
-
-                    if (!league) {
-                        return -1;
-                    }
-
-                    return league.Id;
-                }
+                type: String
             },
             'Country': {
                 prop: 'Country',
@@ -174,10 +160,18 @@ export class TaxIndexService {
         console.log(data.errors);
 
         for (let i = 0; i < data.rows.length; i++) {
-            if (data.rows[i].League === -1) {
-                data.rows.splice(i, 1);
-                i--;
+
+            const leagueExists: any = await this.leagueRepository.getLeagueByName(data.rows[i].League);
+
+            if (!leagueExists) {
+                await this.leagueRepository.createLeague(data.rows[i].League);
+                const lastCreatedLeague: any = await this.leagueRepository.getLeagueByName(data.rows[i].League);
+                data.rows[i].League = lastCreatedLeague.Id;
+
+                continue;
             }
+
+            data.rows[i].League = leagueExists.Id;
         }
 
         await this.taxIndexRepository.clearTaxIndexes();

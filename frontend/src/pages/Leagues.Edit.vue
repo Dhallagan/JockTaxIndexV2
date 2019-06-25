@@ -5,7 +5,7 @@
     title="Edit League"
     :breadcrumbs="pageheader.breadcrumbs"
   >
-    <willow-button slot="action-right" class="mr-1" primary v-b-modal.myModal>Import</willow-button>
+    <!-- <willow-button slot="action-right" class="mr-1" primary v-b-modal.myModal>Import</willow-button> -->
     <!-- <willow-button slot="action-right" primary>Import</willow-button> -->
   </page-header>
   <willow-messages v-for="(message, i) in messages" :key="i" :type="message.type" >{{message.msg}}</willow-messages>
@@ -113,7 +113,7 @@
     </b-tabs>
   </willow-layout>
 
-  <b-modal title="Import" id="myModal">
+  <!-- <b-modal title="Import" id="myModal">
     <b-row>
       <b-col>
         <h5>Upload a tax index</h5>
@@ -135,13 +135,13 @@
         <willow-file-input :url="`/leagues/${leagueForm.id}/taxIndexes/import`" :identifier="'TaxImport'" @updateTaxImport="updateTaxImport"><i class="fa fa-file-upload"></i>Import</willow-file-input>
       </b-col>
     </b-row>
-  </b-modal>
+  </b-modal> -->
 </page>
 </template>
 
 <script>
 import api from '@/api/api'
-import { saveAs } from 'file-saver'
+// import { saveAs } from 'file-saver'
 
 export default {
   mounted () {
@@ -215,30 +215,30 @@ export default {
       } else {
         this.leagueForm.active = false
       }
-    },
-
-    updateTaxImport (value) {
-      console.log(value)
-      var messages = [value]
-      messages.forEach(message => {
-        message.type = 'success'
-      })
-      this.messages = messages
-      setTimeout(() => {
-        this.messages = {}
-        this.fetch()
-      }, 3000)
-    },
-
-    downloadExampleIndex () {
-      api.downloadExampleIndex()
-        .then(res => {
-          saveAs(res.data, 'ExampleIndex.xlsx')
-        })
-        .catch(error => {
-          console.log(error)
-        })
     }
+
+    // updateTaxImport (value) {
+    //   console.log(value)
+    //   var messages = [value]
+    //   messages.forEach(message => {
+    //     message.type = 'success'
+    //   })
+    //   this.messages = messages
+    //   setTimeout(() => {
+    //     this.messages = {}
+    //     this.fetch()
+    //   }, 3000)
+    // },
+
+    // downloadExampleIndex () {
+    //   api.downloadExampleIndex()
+    //     .then(res => {
+    //       saveAs(res.data, 'ExampleIndex.xlsx')
+    //     })
+    //     .catch(error => {
+    //       console.log(error)
+    //     })
+    // }
   }
 }
 </script>
