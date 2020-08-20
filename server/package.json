@@ -22,7 +22,7 @@
     "@types/nodemailer": "^4.6.2",
     "@types/nodemailer-direct-transport": "^1.0.31",
     "@types/nodemailer-smtp-transport": "^2.7.4",
-    "bcrypt": "^3.0.0",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "date-fns": "^1.29.0",
     "dotenv": "^6.0.0",
